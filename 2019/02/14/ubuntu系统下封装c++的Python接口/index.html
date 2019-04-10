@@ -114,7 +114,7 @@
 <meta property="og:description" content="相关背景python作为一种脚本语言，底层数是基于c/c++实现的。在日常开发中，难免会遇到一些需要但没有的模块。这时候就需要自己编写。现在的Python第三方模块基本就是这么实现的。 要编写出一个这样的模块需要两个环节，用c/c++实现相关功能，然后封装Python接口。本教程是在假设已经完成了功能实现的基础上，获得了.h和.c文件之后，教学如何封装成可供Python直接调用的第三方模块。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/c_to_python/1.png">
-<meta property="og:updated_time" content="2019-03-24T02:59:42.963Z">
+<meta property="og:updated_time" content="2019-03-31T12:18:33.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu系统下c++的python接口封装">
 <meta name="twitter:description" content="相关背景python作为一种脚本语言，底层数是基于c/c++实现的。在日常开发中，难免会遇到一些需要但没有的模块。这时候就需要自己编写。现在的Python第三方模块基本就是这么实现的。 要编写出一个这样的模块需要两个环节，用c/c++实现相关功能，然后封装Python接口。本教程是在假设已经完成了功能实现的基础上，获得了.h和.c文件之后，教学如何封装成可供Python直接调用的第三方模块。">
@@ -381,7 +381,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-03-24 10:59:42" itemprop="dateModified" datetime="2019-03-24T10:59:42+08:00">2019-03-24</time>
+                <time title="Modified: 2019-03-31 20:18:33" itemprop="dateModified" datetime="2019-03-31T20:18:33+08:00">2019-03-31</time>
               
             
           </span>
@@ -439,7 +439,7 @@
 <h1 id="swig原理"><a href="#swig原理" class="headerlink" title="swig原理"></a>swig原理</h1><p>本教程所使用的工具就是swig。swig本质是一个代码生成器，生成c/c++到其他语言的包装代码。而生成的过程是按照一定的规则来的，我们的任务就是去书写这个规则。（整个过程很类似书写makefile，规定build代码的细节，不过比写makefile要简单很多）  </p>
 <p>而这个规则文件的后缀是一个.i，也就是在这一步我们会获得一个.i文件。</p>
 <h1 id="快速实现"><a href="#快速实现" class="headerlink" title="快速实现"></a>快速实现</h1><p>经过前面的铺垫，我们知道要用c++完成一个Python模块的书写，需要三个文件，功能实现的.h和.c文件以及，生成接口代码的规则文件.i文件。  </p>
-<p>可以参照这个教程直接粘贴复制代码：<a href="https://www.jianshu.com/p/9e6ef97d1cc0" target="_blank" rel="noopener">https://www.jianshu.com/p/9e6ef97d1cc0</a> 快速实践整个流程。特别注意教程中最后生成模块的步骤中书写setup.py代码时候的注意事项。也就是如下图所示环节： </p>
+<p>可以参照这个<a href="https://www.jianshu.com/p/9e6ef97d1cc0" target="_blank" rel="noopener">教程</a>直接粘贴复制代码,快速实践整个流程。特别注意教程中最后生成模块的步骤中书写setup.py代码时候的注意事项。也就是如下图所示环节： </p>
 <p><img src="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/c_to_python/1.png" alt="">  </p>
 <p>否则会报如下错误：ImportError: dynamic module does not define init function</p>
 <h1 id="内容补充"><a href="#内容补充" class="headerlink" title="内容补充"></a>内容补充</h1><h2 id="swig规则说明"><a href="#swig规则说明" class="headerlink" title="swig规则说明"></a>swig规则说明</h2><p>以教程中的.i文件为例  </p>
@@ -451,7 +451,7 @@
 <pre><code>#要封装的接口文件，也就是.h文件提供相应的接口，也即是函数声明，而到时候会直接依据这些接口封装Python接口，所以所.h文件必须要独立出来
 </code></pre><p>int fact(int n);  </p>
 <pre><code>#要封装的接口,前面include了.h文件就好像我们写c代码的时候include了一个标准库头文件，但是我们不会说把所有在头文件中声明的函数都用完，只会使用其中一些(当然想用可以用完)。所以这里的作用也是一样，我们不一定要疯转所有的接口可能只想封装几个，那么就把要封装的接口罗列出来就可以。  
-</code></pre><p>此外我们还可以include一些其他的.i文件进来，比如你想让你的新模块能够使用c++中的string类型，你不必自己写一个，可以直接include “std_string.i”，因为swig官方对于一些常用的c++接口已经提供了相应的封装文件，可以直接调用进来就可以。<br>具体封装了那些接口可以看这个链接：<a href="http://www.swig.org/Doc3.0/Library.html#Library_stl_cpp_library" target="_blank" rel="noopener">http://www.swig.org/Doc3.0/Library.html#Library_stl_cpp_library</a></p>
+</code></pre><p>此外我们还可以include一些其他的.i文件进来，比如你想让你的新模块能够使用c++中的string类型，你不必自己写一个，可以直接include “std_string.i”，因为swig官方对于一些常用的c++接口已经提供了相应的封装文件，可以直接调用进来就可以。<br>具体封装了那些接口可以看这个<a href="http://www.swig.org/Doc3.0/Library.html#Library_stl_cpp_library" target="_blank" rel="noopener">链接</a></p>
 <h2 id="在Python中调用自定义类对象"><a href="#在Python中调用自定义类对象" class="headerlink" title="在Python中调用自定义类对象"></a>在Python中调用自定义类对象</h2><p>前面介绍了如何调用函数，那么c++中另一个重要的东西类怎么调用呢？</p>
 <p>首先编写，封装的步骤是一样的。假设现在有如下三个文件： </p>
 <p>swig_test.h文件<br> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cout</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cin</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fact</span><span class="params">(<span class="keyword">int</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Box</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">      <span class="keyword">double</span> length;      <span class="comment">// 长度</span></span><br><span class="line">      <span class="keyword">double</span> breadth;     <span class="comment">// 宽度</span></span><br><span class="line">      <span class="keyword">double</span> height;      <span class="comment">// 高度</span></span><br><span class="line">   </span><br><span class="line">      <span class="function"><span class="keyword">double</span> <span class="title">getVolume</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">setLength</span><span class="params">( <span class="keyword">double</span> len )</span></span>;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">setBreadth</span><span class="params">( <span class="keyword">double</span> bre )</span></span>;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">setHeight</span><span class="params">( <span class="keyword">double</span> hei )</span></span>;</span><br><span class="line">      </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
@@ -583,7 +583,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -635,7 +635,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -745,7 +753,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共3.3k字</span>
+  <span class="post-count">博客全站共5.1k字</span>
   
 </div>
 <div class="powered-by">
