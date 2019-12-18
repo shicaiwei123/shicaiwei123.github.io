@@ -105,18 +105,18 @@
 
 
 
-  <meta name="description" content="背景在对选择的抢票程序配置环境使用的时候出现了很多错误，在此做下记录和解决方案。在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能 抢票程序逻辑可以简单的将抢票程序分为三个环节：登录，余票查询；下单。 登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人">
+  <meta name="description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
 <meta name="keywords" content="12306,抢票">
 <meta property="og:type" content="article">
 <meta property="og:title" content="12306抢票程序配置使用">
 <meta property="og:url" content="https://shicaiwei123.github.io/2019/12/17/12306/index.html">
 <meta property="og:site_name" content="韦仕才">
-<meta property="og:description" content="背景在对选择的抢票程序配置环境使用的时候出现了很多错误，在此做下记录和解决方案。在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能 抢票程序逻辑可以简单的将抢票程序分为三个环节：登录，余票查询；下单。 登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人">
+<meta property="og:description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-18T09:50:31.298Z">
+<meta property="og:updated_time" content="2019-12-18T10:07:40.799Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12306抢票程序配置使用">
-<meta name="twitter:description" content="背景在对选择的抢票程序配置环境使用的时候出现了很多错误，在此做下记录和解决方案。在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能 抢票程序逻辑可以简单的将抢票程序分为三个环节：登录，余票查询；下单。 登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人">
+<meta name="twitter:description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
 
 
 
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-12-18 17:50:31" itemprop="dateModified" datetime="2019-12-18T17:50:31+08:00">2019-12-18</time>
+                <time title="Modified: 2019-12-18 18:07:40" itemprop="dateModified" datetime="2019-12-18T18:07:40+08:00">2019-12-18</time>
               
             
           </span>
@@ -413,13 +413,16 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在对选择的抢票程序配置环境使用的时候出现了很多错误，在此做下记录和解决方案。<br>在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能</p>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。</p>
+<p>事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置环境的时候总会遇到各种奇奇怪怪的问题。所以直接按照给的教程来的话还是存在很多问题。中间也填了蛮多坑。</p>
+<p>然后意外的是，今年回家的票异常好卖，所以觉得可能都差不多，也就没有想着写一个填坑的教程。直到看到朋友圈还在有人为抢票奔波，所以就把之前配置环境时遇到的一些问题整理出来。</p>
+<p>在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能</p>
 <h2 id="抢票程序逻辑"><a href="#抢票程序逻辑" class="headerlink" title="抢票程序逻辑"></a>抢票程序逻辑</h2><p>可以简单的将抢票程序分为三个环节：登录，余票查询；下单。</p>
 <p>登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人性）。如果要自动识别的话，一般会用到图片识别技术，识别图像中存在的东西是什么，具体存在于图像的哪一个位置。然后结合用户名和密码登录就可。</p>
 <p>登录之后需要根据用户想要的出发站，到站，实时刷新查看还有没有票。特别是在抢购不定期放票和用户随机退的票的时候。这一步的核心就是要能把余票情况爬下来。要用到的技术就是爬虫技术，想要了解到详细内容可以看这个<a href="https://www.jianshu.com/p/89f6170991c8" target="_blank" rel="noopener">余票查询介绍</a>。</p>
 <p>然后根据爬下来的余票情况，再根据用户的需求，比如车次，车辆类型(高铁动车，快车，直达。。。)出发时间，位置情况（如一等，二等，卧铺，坐票。。。）。这就是下单过程，这一部分没有什么比较难的技术，就是条件匹配筛选。</p>
 <h2 id="抢票程序"><a href="#抢票程序" class="headerlink" title="抢票程序"></a>抢票程序</h2><p>在github上看了一圈后，选择了这个star数18.5k的<a href="https://github.com/testerSunshine/12306" target="_blank" rel="noopener">抢票代码</a>.虽然star数很高，但是环境配置的教程写的有些不够准确。而且代码本身还有一些需要的地方。不过代码的结构很好，修改很方便，而且因为经过了多次迭代，逻辑没有大的问题。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我安装的方法是按照教程的流程来的，然后利用conda单独新建了一个虚拟环境，大家如果也是用虚拟环境的话应该差别不会很大。无论是windows还是ubuntu理论上应该都一样。其次就是不会受到之前装的包的影响。所以还是推荐大家使用虚拟环境配置。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我安装的方法是按照教程的流程来的，然后利用conda单独新建了一个虚拟环境，大家如果也是用虚拟环境的话应该差别不会很大。无论是windows还是ubuntu理论上应该都一样。其次就是不会受到之前装的包的影响。所以还是推荐大家使用虚拟环境配置。如果利用conda，利用虚拟环境配置的话，这篇教程应该能解决你的绝大部分，甚至所有问题。</p>
 <p>所以教程是假设大家已经安装了anaconda3，并且使用conda 虚拟环境配置的前提下，对可能遇到的问题分析。如果不使用虚拟环境，也可能会遇到这些问题。但是可能就不止这些问题了。</p>
 <p>其次不推荐使用docker安装！！！，虽然这个东西看起来很方便，但是好像docker镜像有问题，而且出了问题还不知道怎么修改。所以还是推荐大家自己配置环境。当然要是对docker很了解，觉得自己可以解决其中遇到任何的问题，可以使用docker。</p>
 <p>还有，在安装下载ChromeDriver的时候，注意它和chrome浏览器的版本对应关系。我因为最开始就直接选好了版本，所以没有这个问题。但是如果版本选择不对，可能还是会出现问题。版本对应关系可以在这个<a href="https://blog.csdn.net/BinGISer/article/details/88559532" target="_blank" rel="noopener">链接</a>查看</p>
@@ -517,10 +520,13 @@
 <li><p>解决</p>
 <p>  如果是登录遇到这个问题，而且等了几分钟还不行就换一台电脑或者在局域网环境下改一个IP，再去尝试了最简单的就是换一个wifi。如果这样还不行，那封的可能就是你的账号了，就只能等官网解封了。这时候你如果还想买票只能用12306 app了。</p>
 <p>  如果是查询余票的时候遇到这个问题。可以自己先登录12306官网，随便选择一个出发站，达到站，点击查询。然后按F12查看网页源码。点击 init?linktypeid=dc 文件，看第14行查票接口是什么。然后在源代码 select_ticket_info.py的第45行将查票接口改成现在的接口。</p>
+<p>  如果改了接口还不行，注意看看自己的时间格式是不是正确的，注意如果要买1月16号的票，不能写成 “2020-1-16”，需要写成“2020-01-16”。否则就算改了查询接口，还是会报错，我最开始就在这里卡住了半天</p>
 </li>
 </ul>
 </li>
 </ul>
+<h2 id="修补"><a href="#修补" class="headerlink" title="修补"></a>修补</h2><p>原程序中没有时间区间的限制。也就是，将余票情况都爬取下来，按照时间顺序来检索。然后就有可能出现，抢到了早上六点的票，但是实际上你并不想要这个票，所以基于这个需求，在原始代码的基础上增加了时间区间的限制。</p>
+<p>配置的方式和其他限制条件一样，都在TickerConfig.py中配置</p>
 
       
     </div>
@@ -772,7 +778,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序逻辑"><span class="nav-number">2.</span> <span class="nav-text">抢票程序逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序"><span class="nav-number">3.</span> <span class="nav-text">抢票程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">4.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题和解决"><span class="nav-number">5.</span> <span class="nav-text">问题和解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序逻辑"><span class="nav-number">2.</span> <span class="nav-text">抢票程序逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序"><span class="nav-number">3.</span> <span class="nav-text">抢票程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">4.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题和解决"><span class="nav-number">5.</span> <span class="nav-text">问题和解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修补"><span class="nav-number">6.</span> <span class="nav-text">修补</span></a></li></ol></div>
             
 
           </div>
@@ -820,7 +826,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共10.6k字</span>
+  <span class="post-count">博客全站共11.1k字</span>
   
 </div>
 <div class="powered-by">
