@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="韦仕才">
 <meta property="og:description" content="背景在对选择的抢票程序配置环境使用的时候出现了很多错误，在此做下记录和解决方案。在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能 抢票程序逻辑可以简单的将抢票程序分为三个环节：登录，余票查询；下单。 登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-18T09:19:48.683Z">
+<meta property="og:updated_time" content="2019-12-18T09:29:52.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12306抢票程序配置使用">
 <meta name="twitter:description" content="背景在对选择的抢票程序配置环境使用的时候出现了很多错误，在此做下记录和解决方案。在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能 抢票程序逻辑可以简单的将抢票程序分为三个环节：登录，余票查询；下单。 登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人">
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-12-18 17:19:48" itemprop="dateModified" datetime="2019-12-18T17:19:48+08:00">2019-12-18</time>
+                <time title="Modified: 2019-12-18 17:29:52" itemprop="dateModified" datetime="2019-12-18T17:29:52+08:00">2019-12-18</time>
               
             
           </span>
@@ -466,23 +466,23 @@
 <p>  unknown error: DevToolsActivePort file </p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 原因</span><br><span class="line"></span><br><span class="line">    服务器没有图形化界面运行错误</span><br><span class="line"></span><br><span class="line">- 解决</span><br><span class="line"></span><br><span class="line">    修改config/getCookie.py,向webdriver.chrome()函数传入额外参数，关闭沙箱模式、无头运行chrome。代码如下图所示</span><br></pre></td></tr></table></figure>
 <p>  15         from selenium import webdriver<br>  16         options= webdriver.ChromeOptions()<br>  17         options.add_argument(‘–headless’)<br>  18         options.add_argument(‘–no-sandbox’)<br>  19<br>  20         cookies = []<br>  21         driver = webdriver.Chrome(executable_path=TickerConfig.CHROME_PATH,chrome_options=options)</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- e </span><br><span class="line"></span><br><span class="line">    - 错误</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- e </span><br><span class="line">    - 错误</span><br></pre></td></tr></table></figure>
 <p>  Non-ASCII character ‘\xe5</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    - 原因</span><br><span class="line"></span><br><span class="line">        字符格式问题</span><br><span class="line">    - 解决</span><br><span class="line"></span><br><span class="line">        在TickerConfig.py开头 增加 # -*- coding=utf-8 -*-,</span><br><span class="line">        好像新的版本已经解决了这个问题</span><br><span class="line">     </span><br><span class="line">- f</span><br><span class="line"></span><br><span class="line">    - 错误</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    - 原因</span><br><span class="line"></span><br><span class="line">        字符格式问题</span><br><span class="line">    - 解决</span><br><span class="line"></span><br><span class="line">        在TickerConfig.py开头 增加 # -*- coding=utf-8 -*-,</span><br><span class="line">        好像新的版本已经解决了这个问题  </span><br><span class="line">- f</span><br><span class="line">    - 错误</span><br></pre></td></tr></table></figure>
 <p>  WebDriverException:Message:’chromedriver’ executable needs to be in PATH<br>  <code>`</code></p>
 </li>
 <li><p>原因</p>
 <p>  使用docker时候出现的问题，而且自己单独利用<a href="https://sites.google.com/a/chromium.org/chromedriver/getting-started" target="_blank" rel="noopener">官方测试</a>代码测试了，如果不在docker环境内使用是没有问题的。猜测是docker环境本事是一个独立容器，所以可能和系统完全隔离开了，访问不了系统中文件。</p>
 </li>
 <li><p>解决</p>
-<p>  不适应docker，然后自己建立一个虚拟环境，配置环境，同样的指定路径的方式，就没有这个问题。</p>
+<p>  不适应docker，然后自己建立一个虚拟环境，配置环境，同样的指定路径的方式，就没有这个问题。  </p>
 </li>
 </ul>
 </li>
 <li><p>g</p>
 <ul>
 <li><p>错误</p>
-<p>  /passport/web/login返回参数为空, 接口状态码: 302</p>
+<p>  /passport/web/login返回参数为空, 接口状态码: 302  </p>
 </li>
 <li><p>原因</p>
 <p>  如果是登录时候遇到这个问题，可以先等上几分钟，做些其他事情。如果还是不行。可能就是ip被封了。如果是登录成功了，但是爬虫尝试去爬取余票情况的时候遇到这个问题。估计是查询的接口变了，12306为了防止恶意刷票，一般一天或者几天就会把查票接口改一下。</p>
