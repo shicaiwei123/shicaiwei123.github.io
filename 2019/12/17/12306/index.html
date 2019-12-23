@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="韦仕才">
 <meta property="og:description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-23T13:43:08.824Z">
+<meta property="og:updated_time" content="2019-12-23T13:45:16.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12306抢票程序配置使用">
 <meta name="twitter:description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-12-23 21:43:08" itemprop="dateModified" datetime="2019-12-23T21:43:08+08:00">2019-12-23</time>
+                <time title="Modified: 2019-12-23 21:45:16" itemprop="dateModified" datetime="2019-12-23T21:45:16+08:00">2019-12-23</time>
               
             
           </span>
@@ -529,7 +529,7 @@
 </ul>
 <h2 id="修补"><a href="#修补" class="headerlink" title="修补"></a>修补</h2><p>原程序中没有时间区间的限制。也就是，将余票情况都爬取下来，按照时间顺序来检索。然后就有可能出现，抢到了早上六点的票，但是实际上你并不想要这个票，所以基于这个需求，在原始代码的基础上增加了时间区间的限制。</p>
 <p>配置的方式和其他限制条件一样，都在TickerConfig.py中配置</p>
-<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><p>如果大家对对相关内容都不怎么了解的，而又想使用的话，可以按照下面的流程进行配置。唯一需要的是装好一个anaconda3，以及一点点的python知识。如果你连这些都没有，那么再见。。。</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>如果大家对对相关内容都不怎么了解的，而又想使用的话，可以按照下面的流程进行配置。唯一需要的是装好一个anaconda3，以及一点点的python知识。如果你连这些都没有，那么再见。。。</p>
 <p>下面的配置流程是在win10上进行的，ubuntu应该也是类似的。</p>
 <ul>
 <li>下载源码并解压<ul>
@@ -854,7 +854,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序逻辑"><span class="nav-number">2.</span> <span class="nav-text">抢票程序逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序"><span class="nav-number">3.</span> <span class="nav-text">抢票程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">4.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题和解决"><span class="nav-number">5.</span> <span class="nav-text">问题和解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修补"><span class="nav-number">6.</span> <span class="nav-text">修补</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#实践"><span class="nav-number"></span> <span class="nav-text">实践</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序逻辑"><span class="nav-number">2.</span> <span class="nav-text">抢票程序逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序"><span class="nav-number">3.</span> <span class="nav-text">抢票程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">4.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题和解决"><span class="nav-number">5.</span> <span class="nav-text">问题和解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修补"><span class="nav-number">6.</span> <span class="nav-text">修补</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">7.</span> <span class="nav-text">实践</span></a></li></ol></div>
             
 
           </div>
