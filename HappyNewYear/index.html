@@ -105,25 +105,25 @@
 
 
 
-  <meta name="description" content="新年快乐      	          var canvas = $$(&quot;canvas&quot;), 	ctx = canvas.getContext(&quot;2d&quot;), 	g = 0.35,//模拟重力加速度 	n = 5,//一次性发射的烟火的数量 	fireworkList = [],//存放所有烟火对象 	//烟火形状">
+  <meta name="description" content="新年快乐   body {   background: #3E4777;   overflow: hidden;   margin: 0; }  .instructions {   position: absolute;   top: 20px;   right: 20px;   letter-spacing: 0.2em;   font-size: 18px;   color: whit">
 <meta name="keywords" content="机器学习，嵌入式开发，随笔">
 <meta property="og:type" content="website">
 <meta property="og:title" content="韦仕才">
-<meta property="og:url" content="https://shicaiwei123.github.io/happy-newyear/index.html">
+<meta property="og:url" content="https://shicaiwei123.github.io/HappyNewYear/index.html">
 <meta property="og:site_name" content="韦仕才">
-<meta property="og:description" content="新年快乐      	          var canvas = $$(&quot;canvas&quot;), 	ctx = canvas.getContext(&quot;2d&quot;), 	g = 0.35,//模拟重力加速度 	n = 5,//一次性发射的烟火的数量 	fireworkList = [],//存放所有烟火对象 	//烟火形状">
+<meta property="og:description" content="新年快乐   body {   background: #3E4777;   overflow: hidden;   margin: 0; }  .instructions {   position: absolute;   top: 20px;   right: 20px;   letter-spacing: 0.2em;   font-size: 18px;   color: whit">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-01-24T07:00:48.408Z">
+<meta property="og:updated_time" content="2020-01-24T06:44:29.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="韦仕才">
-<meta name="twitter:description" content="新年快乐      	          var canvas = $$(&quot;canvas&quot;), 	ctx = canvas.getContext(&quot;2d&quot;), 	g = 0.35,//模拟重力加速度 	n = 5,//一次性发射的烟火的数量 	fireworkList = [],//存放所有烟火对象 	//烟火形状">
+<meta name="twitter:description" content="新年快乐   body {   background: #3E4777;   overflow: hidden;   margin: 0; }  .instructions {   position: absolute;   top: 20px;   right: 20px;   letter-spacing: 0.2em;   font-size: 18px;   color: whit">
 
 
 
 
 
 
-  <link rel="canonical" href="https://shicaiwei123.github.io/happy-newyear/"/>
+  <link rel="canonical" href="https://shicaiwei123.github.io/HappyNewYear/"/>
 
 
 
@@ -346,129 +346,243 @@
       <div class="post-body">
         
         
-          <!DOCTYPE html>
-<html lang="zh">
+          <!doctype html>
+<html>
 <head><meta name="generator" content="Hexo 3.8.0">
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <title>新年快乐</title>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/canvas.js"></script>
-<script src="js/deepCopy.js"></script>
-<script src="js/Firework.js"></script>
-	
+<style>
+body {
+  background: #3E4777;
+  overflow: hidden;
+  margin: 0;
+}
+
+.instructions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  letter-spacing: 0.2em;
+  font-size: 18px;
+  color: white;
+}
+</style>
 </head>
 <body>
 
-<canvas id="canvas" width="500" height="500"></canvas>   
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/Stats.min.js"></script>
 
-<script>
-var canvas = $$("canvas"),
-	ctx = canvas.getContext("2d"),
-	g = 0.35,//模拟重力加速度
-	n = 5,//一次性发射的烟火的数量
-	fireworkList = [],//存放所有烟火对象
-	//烟火形状                                                        圆形                                                              椭圆形                                                          爱心形
-	fireworkTypeList = [createCircleFirework, createEllipseFirework, createHeartFirework],
-	totalNum = 0,//发射烟火的总数量
-	surprise_num = 25,//当发射烟火数量达到25时,发射生日快乐字样的烟火
-	flag = false;//是否发射生日快乐字样的烟火
-canvas.width = $(window).width() - 15;
-canvas.height = $(window).height() - 20;
+<canvas id="canvas"></canvas>
 
+<div id="stats"></div>
 
+<div class="instructions">点击页面</div>
 
-var init = function(firework,params){//初始化一个烟火
-	var beforeBalst = firework.getBeforeBalst();
-	firework.setCtx(ctx);
-	firework.setStatus(1);//状态为点燃引线
-	firework.setNum(100 + Math.floor(20 * Math.random()));//爆炸之后的烟花数量
-	firework.setRoundness(getType(params) == "object" ? (getType(params.roundness) == "number" ? params.roundness : 0.25) : 0.25);//默认的规则度是0.25,这样爆炸的烟花与真实的最像
-	//firework.setFireworkType(getType(params) == "object" ? params.fireworkType : fireworkTypeList[Math.floor(Math.random() * fireworkTypeList.length)]);//从三种形状中随机烟花形状
-	firework.setFireworkType(getType(params) == "object" ? params.fireworkType : createCircleFirework);//默认圆形烟花
-	firework.setDelay(Math.floor(30 * Math.random()));//引线燃烧的时间,单位为帧, 最多30帧,即0.5s
-	beforeBalst.setAnimate({
-		quiescence : {//发射位置为底部中间
-			x : canvas.width / 2,
-			y : canvas.height,
-			deg : 0,
-			zoom : 1
-		},move : {//发射速度向量
-			vx : -7 + 14 * Math.random(),
-			vy : -22 + 4 * Math.random(),
-			pal : 0,
-			scale : 0
-		},translate : {//发射加速度,有一个为g的重力加速度
-			ax : 0,
-			ay : g,
-			apal : 0,
-			scale : 0
-		}
-	});
-	beforeBalst.setR(3);//烟火半径为3像素
-	beforeBalst.setColor("#FFFFFF");//白色
-	beforeBalst.setLife(50 + Math.floor(Math.random() * 50));//烟花从发射到爆炸的时间,单位为帧,即50-100帧后爆炸
-	beforeBalst.setBase();//记录烟花发射的初始状态
-}
+<script type="text/javascript">
+(function() {
+  var Particles,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-for(var i = 0; i < n; i++){//初始化n个烟火
-	var firework = Firework.getInstance();
-	init(firework);
-	fireworkList.push(firework);
-	totalNum++;
-}
+  Particles = (function() {
+    function Particles() {
+      this.render = bind(this.render, this);
+      this.rotateRadians = bind(this.rotateRadians, this);
+      this.random = bind(this.random, this);
+      this.mouseMove = bind(this.mouseMove, this);
+      this.mouseDown = bind(this.mouseDown, this);
+      this.resize = bind(this.resize, this);
+      this.animate = bind(this.animate, this);
+      this.setStage = bind(this.setStage, this);
+      this.setLighting = bind(this.setLighting, this);
+      this.getTexture = bind(this.getTexture, this);
+      this.addStars = bind(this.addStars, this);
+      this.setActors = bind(this.setActors, this);
+      this.getPastelColor = bind(this.getPastelColor, this);
+      this.canvasMouse = {
+        x: 0,
+        y: 0,
+        z: 0,
+        px: 0,
+        py: 0,
+        py: 0,
+        vx: 0,
+        vy: 0,
+        pressed: false
+      };
+      this.colors = ['#da6b00', '#8555d4', '#4ad3b5', '#ffffff'];
+      this.particleCount = 500;
+      this.initialRadius = 0.1;
+      this.movementSpeed = 1;
+      this.directions = [];
+      this.starSystems = [];
+      this.systemCount = 1;
+      this.setStage();
+      this.setLighting();
+      this.setActors();
+      setInterval((function(_this) {
+        return function() {
+          _this.systemCount++;
+          return _this.addStars(_this.getPastelColor(), 0, 0);
+        };
+      })(this), 5000);
+      this.animate();
+      this.render();
+    }
 
-var draw = function(){//描绘每一帧烟火的状态
-	//整个canvas充满黑幕,模拟黑夜
-	ctx.globalCompositeOperation = 'source-over';
-	ctx.globalAlpha = 0.2;
-	ctx.fillStyle = '#000003';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	//描绘每个烟火的状态
-	ctx.globalCompositeOperation = 'screen';
-	$.each(fireworkList,function(index,value){
-		value.draw();
-	});
-	
-};
+    Particles.prototype.getPastelColor = function() {
+      this.col = new THREE.Color("hsl(" + (this.random(0, 360)) + ", " + (Math.floor(25 + 70 * Math.random())) + "%, " + (Math.floor(85 + 10 * Math.random())) + "%)");
+      return "#" + (this.col.getHexString());
+    };
 
-var update = function(){//更新每一帧烟火的状态
-	for(var i = fireworkList.length - 1; i >= 0; i--){
-		fireworkList[i].update();//更新
-		if(fireworkList[i].getStatus() == 5){//烟火消失
-			fireworkList.splice(i,1);//在烟火集合中将这个烟火去除掉
-			if(totalNum < surprise_num){//当发射烟火数量没到25
-				var firework = Firework.getInstance();//继续生成新的烟火
-				init(firework);
-				fireworkList.push(firework);
-				totalNum++;
-			}  
-			if(fireworkList.length == 0 && flag){//发射生日快乐烟火和一箭穿心烟火
-				var firework = Firework.getInstance();
-				init(firework,{fireworkType:createCustomFirework,roundness:1});
-				fireworkList.push(firework);        			
-				var firework2 = Firework.getInstance();
-				init(firework2,{fireworkType:createDoubleHeartFirework,roundness:1});
-				fireworkList.push(firework2);
-				flag = false;
-			}
-		}
-	}
-}
+    Particles.prototype.setActors = function() {
+      return this.addStars(this.getPastelColor(), 0, 0);
+    };
 
-var loop = function(){
-	draw();
-	update();						
-	requestAnimationFrame(function(){//每秒触发60次的方法,因此动画是60帧的
-		loop();
-	});
-};
+    Particles.prototype.addStars = function(color, x, y) {
+      var angle, i, k, radiusSQ, ref, vertex;
+      this.dirs = [];
+      this.geometry = new THREE.Geometry();
+      this.materials = new THREE.PointsMaterial({
+        color: color,
+        size: 1,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        map: this.getTexture(color),
+        depthTest: false
+      });
+      for (i = k = 0, ref = this.particleCount; 0 <= ref ? k < ref : k > ref; i = 0 <= ref ? ++k : --k) {
+        angle = Math.random() * 2 * Math.PI;
+        radiusSQ = Math.random() * this.initialRadius * this.initialRadius;
+        vertex = new THREE.Vector3();
+        vertex.x = x;
+        vertex.y = y;
+        vertex.z = 0;
+        this.dirs.push({
+          x: (Math.random() * this.movementSpeed) - (this.movementSpeed / 2),
+          y: (Math.random() * this.movementSpeed) - (this.movementSpeed / 2),
+          z: (Math.random() * this.movementSpeed) - (this.movementSpeed / 2)
+        });
+        this.geometry.vertices.push(vertex);
+      }
+      this.starSystem = new THREE.Points(this.geometry, this.materials);
+      this.starSystem.sortParticles = true;
+      this.directions.push(this.dirs);
+      this.starSystems.push(this.starSystem);
+      return this.scene.add(this.starSystem);
+    };
 
-loop();
+    Particles.prototype.getTexture = function(color) {
+      var canvas, context, gradient, texture;
+      canvas = document.createElement('canvas');
+      canvas.width = 32;
+      canvas.height = 32;
+      context = canvas.getContext('2d');
+      gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
+      gradient.addColorStop(0, 'rgba(255,255,255,1)');
+      gradient.addColorStop(0.2, color);
+      gradient.addColorStop(0.4, color);
+      gradient.addColorStop(1, 'rgba(0,0,0,1)');
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      texture = new THREE.Texture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    };
+
+    Particles.prototype.setLighting = function() {
+      this.ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
+      return this.scene.add(this.ambientLight);
+    };
+
+    Particles.prototype.setStage = function() {
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("canvas"),
+        antialias: true
+      });
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.autoClear = false;
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.scene = new THREE.Scene();
+      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+      this.camera.position.z = 50;
+      this.stats = new Stats();
+      this.stats.setMode(0);
+      this.stats.domElement.style.position = 'absolute';
+      this.stats.domElement.style.left = '0px';
+      this.stats.domElement.style.top = '0px';
+      document.getElementById("stats").appendChild(this.stats.domElement);
+      window.addEventListener('resize', this.resize, false);
+      window.addEventListener('mousemove', this.mouseMove, false);
+      return window.addEventListener("mousedown", this.mouseDown);
+    };
+
+    Particles.prototype.animate = function() {
+      var i, j, k, l, particle, ref, ref1;
+      for (j = k = 0, ref = this.systemCount - 1; 0 <= ref ? k <= ref : k >= ref; j = 0 <= ref ? ++k : --k) {
+        for (i = l = 0, ref1 = this.particleCount; 0 <= ref1 ? l < ref1 : l > ref1; i = 0 <= ref1 ? ++l : --l) {
+          particle = this.starSystems[j].geometry.vertices[i];
+          particle.x += this.directions[j][i].x;
+          particle.y += this.directions[j][i].y;
+          particle.z += this.directions[j][i].z;
+        }
+        this.starSystems[j].geometry.verticesNeedUpdate = true;
+      }
+      this.stats.update();
+      this.render();
+      return requestAnimationFrame(this.animate);
+    };
+
+    Particles.prototype.resize = function() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      return this.render();
+    };
+
+    Particles.prototype.mouseDown = function() {
+      this.systemCount++;
+      return this.addStars(this.getPastelColor(), this.canvasMouse.x, this.canvasMouse.y);
+    };
+
+    Particles.prototype.mouseMove = function() {
+      this.canvasMouse.px = this.canvasMouse.x;
+      this.canvasMouse.py = this.canvasMouse.y;
+      this.canvasX = (event.clientX / window.innerWidth) * 2 - 1;
+      this.canvasY = -(event.clientY / window.innerHeight) * 2 + 1;
+      this.vector = new THREE.Vector3(this.canvasX || 0, this.canvasY || 0, 0);
+      this.vector.unproject(this.camera);
+      this.dir = this.vector.sub(this.camera.position).normalize();
+      this.distance = -this.camera.position.z / this.dir.z;
+      return this.canvasMouse = this.camera.position.clone().add(this.dir.multiplyScalar(this.distance));
+    };
+
+    Particles.prototype.random = function(min, max) {
+      return Math.floor(Math.random() * max) + min;
+    };
+
+    Particles.prototype.rotateRadians = function(deg) {
+      return deg * (Math.PI / 180);
+    };
+
+    Particles.prototype.render = function() {
+      return this.renderer.render(this.scene, this.camera);
+    };
+
+    return Particles;
+
+  })();
+
+  new Particles;
+
+}).call(this);
 </script>
+
 
 </body>
 </html>
+
         
       </div>
       

@@ -125,7 +125,40 @@ var Firework = {//烟花类
 			firework.update = function(){//改变每一帧的烟火的状态
 				if(status == 1){//烟火点燃引线的时候
 					delay--;//每一帧引线时间减一
-					if(delay <= 0){="" status="2;//引线燃烧完之后,进入发射状态" }="" }else="" if(status="=" 2){="" 发射升空状态="" var="" animate="beforeBalst.getAnimate()," move="animate.getMove(),//速度向量参数" quiescence="animate.getQuiescence(),//静态位置参数" translate="animate.getTranslate(),//加速度参数" life="beforeBalst.getLife();//持续时间参数" translate_animate_state(move,translate);="" 以上一帧的速度和加速度得到此次的速度="" change_quiescence(quiescence,move);="" 以此次的速度得到此次的位置="" beforebalst.setlife(--life);="" 离爆炸的时间减一="" if(life="" <="0){//离爆炸的时间为0" 的时候="" inbalst.setlife(1);="" 持续一帧,视觉上看就是一闪的白光="" inbalst.setcolor("#ffffff");="" 白色="" inbalst.setr(400);="" 亮光范围为400像素="" inbalst.setalpha(0.4);="" 0.4倍亮度="" inbalst.setanimate({="" 设置亮光中心点的位置="" :="" {="" x="" quiescence.x,="" y="" quiescence.y="" });="" 3){="" 爆炸瞬间产生白光照亮天空的状态="" inbalst.setlife(--life);="" fireworktype(firework);="" 生成="" 烟花爆炸的形状="" 4){="" 烟花爆炸="" for(let="" i="afterBalstList.length" -="" 1;="">= 0; i--){
+					if(delay <= 0){
+						status = 2;//引线燃烧完之后,进入发射状态
+					}
+				}else if(status == 2){//发射升空状态
+					var animate = beforeBalst.getAnimate(),
+						move = animate.getMove(),//速度向量参数
+						quiescence = animate.getQuiescence(),//静态位置参数
+						translate = animate.getTranslate(),//加速度参数
+						life = beforeBalst.getLife();//持续时间参数
+					translate_animate_state(move,translate);//以上一帧的速度和加速度得到此次的速度
+					change_quiescence(quiescence,move);//以此次的速度得到此次的位置
+					beforeBalst.setLife(--life);//离爆炸的时间减一
+					if(life <= 0){//离爆炸的时间为0 的时候
+						status = 3;//进入爆炸瞬间产生白光照亮天空的状态
+						inBalst.setLife(1);//持续一帧,视觉上看就是一闪的白光
+						inBalst.setColor("#FFFFFF");//白色
+						inBalst.setR(400);//亮光范围为400像素
+						inBalst.setAlpha(0.4);//0.4倍亮度
+						inBalst.setAnimate({//设置亮光中心点的位置
+							quiescence : {
+								x : quiescence.x,
+								y : quiescence.y
+							}
+						});
+					}
+				}else if(status == 3){//爆炸瞬间产生白光照亮天空的状态
+					var life = inBalst.getLife();
+					inBalst.setLife(--life);
+					if(life <= 0){
+						status = 4;//进入烟花爆炸四散的状态
+						fireworkType(firework);//生成	烟花爆炸的形状				
+					}
+				}else if(status == 4){//烟花爆炸
+					for(let i = afterBalstList.length - 1; i >= 0; i--){
 						let _afterBalst = afterBalstList[i],
 							animate = _afterBalst.getAnimate(),
 							quiescence = animate.getQuiescence(),//静态位置
@@ -135,7 +168,123 @@ var Firework = {//烟花类
 							base = _afterBalst.getBase(),
 							custom_g = _afterBalst.getCustomG(),
 							_delay = _afterBalst.getDelay();
-						if(_delay <= 0){="" 爆炸="" translate.ax="-move.vx" *="" resistance;="" 水平方向="" 速度="" 空气阻力系数="反向加速度" translate.ay="(getType(custom_g)" =="number" ?="" custom_g="" :="" g)="" -="" move.vy="" 垂直方向="" 重力加速度="" 空气阻力速度="加速度" if(math.abs(translate.ay)="" <="" math.pow(10,-8)){="" 加速度很小的时候,置为0,不然会一直根据上面的公式计算下去,白白浪费机能="" }="" if(math.abs(translate.ax)="" translate_animate_state(move,translate);="" 以上一帧的速度和加速度得到此次的速度="" change_quiescence(quiescence,move);="" 以此次的速度得到此次的位置="" _afterbalst.setlife(--life);="" 离烟花消失时间减一="" _afterbalst.setalpha(0.2="" +="" life="" base.life="" base.alpha);="" 设置亮度,烟花持续时间越长亮度越低,最低亮度0.2="" if(life="" afterbalstlist.splice(i,1);="" 烟花消失="" if(afterbalstlist.length="=" 爆炸产生的所有烟花消失="" status="5;//进入烟花爆炸完成状态" }else{="" 爆炸延迟,进入爆炸状态到正真爆炸的延迟时间="" _afterbalst.setdelay(--_delay);="" return="" firework;="" };="" var="" beforebalst="{//烟火上升的时间段的类" getinstance="" function(){="" animate="Animate.getInstance(),//运动状态参数" r="0,//半径" color="#000000" ,="" 烟火颜色="" base="{};" 以下全是set和get方法="" beforebalst.setanimate="function(_beforeBalst){" let="" quiescence="getType(_beforeBalst.quiescence)" _beforebalst.quiescence="" {},="" move="getType(_beforeBalst.move)" _beforebalst.move="" translate="getType(_beforeBalst.translate)" _beforebalst.translate="" {};="" animate.setquiescence(quiescence);="" animate.setmove(move);="" animate.settranslate(translate);="" beforebalst.getanimate="function(){" animate;="" beforebalst.setr="function(_r){" beforebalst.getr="function(){" r;="" beforebalst.setcolor="function(_color){" beforebalst.getcolor="function(){" color;="" beforebalst.setlife="function(_life){" beforebalst.getlife="function(){" life;="" beforebalst.setbase="function(){" base.animate="{" deepcopy(beforebalst.getanimate().getquiescence()),="" deepcopy(beforebalst.getanimate().getmove()),="" deepcopy(beforebalst.getanimate().gettranslate())="" base.r="r;" base.color="color;" beforebalst.getbase="function(){" base;="" beforebalst;="" inbalst="{//爆炸瞬间产生亮光照亮天空的类" 颜色="" alpha="0.25;//亮光亮度" inbalst.setanimate="function(_inBalst){" _inbalst.quiescence="" _inbalst.move="" _inbalst.translate="" inbalst.getanimate="function(){" inbalst.setr="function(_r){" inbalst.getr="function(){" inbalst.setalpha="function(_alpha){"> 1 ? 1 : (_alpha < 0 ? 0 : _alpha);
+						if(_delay <= 0){//爆炸
+							translate.ax = -move.vx * resistance;//水平方向           速度 * 空气阻力系数 = 反向加速度
+							translate.ay = (getType(custom_g) == "number" ? custom_g : g) - move.vy * resistance;//垂直方向      重力加速度  - 速度 * 空气阻力速度 = 加速度
+							if(Math.abs(translate.ay) < Math.pow(10,-8)){//加速度很小的时候,置为0,不然会一直根据上面的公式计算下去,白白浪费机能
+								translate.ay = 0;
+							}
+							if(Math.abs(translate.ax) < Math.pow(10,-8)){//加速度很小的时候,置为0,不然会一直根据上面的公式计算下去,白白浪费机能
+								translate.ax = 0;
+							}
+							translate_animate_state(move,translate);//以上一帧的速度和加速度得到此次的速度
+							change_quiescence(quiescence,move);//以此次的速度得到此次的位置
+							_afterBalst.setLife(--life);//离烟花消失时间减一
+							_afterBalst.setAlpha(0.2 + life / base.life * base.alpha);//设置亮度,烟花持续时间越长亮度越低,最低亮度0.2
+							if(life <= 0){
+								afterBalstList.splice(i,1);//烟花消失
+							}
+							if(afterBalstList.length == 0){//爆炸产生的所有烟花消失
+								status = 5;//进入烟花爆炸完成状态
+							}
+						}else{//爆炸延迟,进入爆炸状态到正真爆炸的延迟时间
+							_afterBalst.setDelay(--_delay);
+						}
+						
+					}
+					
+				}
+				
+			}
+			return firework;
+		}
+};
+
+
+
+var BeforeBalst = {//烟火上升的时间段的类
+	getInstance : function(){
+		var beforeBalst = {},
+			animate = Animate.getInstance(),//运动状态参数
+			r = 0,//半径
+			life = 0,//离爆炸的时间
+			color = "#000000",//烟火颜色
+			base = {};
+		//以下全是set和get方法
+		beforeBalst.setAnimate = function(_beforeBalst){
+			let quiescence = getType(_beforeBalst.quiescence) == 'object' ? _beforeBalst.quiescence : {},
+				move = getType(_beforeBalst.move) == 'object' ? _beforeBalst.move : {},
+				translate = getType(_beforeBalst.translate) == 'object' ? _beforeBalst.translate : {};
+			animate.setQuiescence(quiescence);
+			animate.setMove(move);
+			animate.setTranslate(translate);
+		}
+		beforeBalst.getAnimate = function(){
+			return animate;
+		}
+		beforeBalst.setR = function(_r){
+			r = _r;
+		}
+		beforeBalst.getR = function(){
+			return r;
+		}
+		beforeBalst.setColor = function(_color){
+			color = _color;
+		}
+		beforeBalst.getColor = function(){
+			return color;
+		}
+		beforeBalst.setLife = function(_life){
+			life = _life;
+		}
+		beforeBalst.getLife = function(){
+			return life;
+		}
+		beforeBalst.setBase = function(){
+			base.animate = {
+				quiescence : deepCopy(beforeBalst.getAnimate().getQuiescence()),
+				move : deepCopy(beforeBalst.getAnimate().getMove()),
+				translate : deepCopy(beforeBalst.getAnimate().getTranslate())
+			};
+			base.r = r;
+			base.color = color;
+			base.life = life;
+		}
+		beforeBalst.getBase = function(){
+			return base;
+		}
+		return beforeBalst;
+	}	
+};
+
+var InBalst = {//爆炸瞬间产生亮光照亮天空的类
+	getInstance : function(){
+		var inBalst = {},
+			animate = Animate.getInstance(),
+			r = 0,//亮光半径
+			color = "#000000",//颜色
+			life = 0,//亮光持续时间
+			alpha = 0.25;//亮光亮度
+		//以下全是set和get方法
+		inBalst.setAnimate = function(_inBalst){
+			let quiescence = getType(_inBalst.quiescence) == 'object' ? _inBalst.quiescence : {},
+				move = getType(_inBalst.move) == 'object' ? _inBalst.move : {},
+				translate = getType(_inBalst.translate) == 'object' ? _inBalst.translate : {};
+			animate.setQuiescence(quiescence);
+			animate.setMove(move);
+			animate.setTranslate(translate);
+		}
+		inBalst.getAnimate = function(){
+			return animate;
+		}
+		inBalst.setR = function(_r){
+			r = _r;
+		}
+		inBalst.getR = function(){
+			return r;
+		}
+		inBalst.setAlpha = function(_alpha){
+			alpha = _alpha > 1 ? 1 : (_alpha < 0 ? 0 : _alpha);
 		}
 		inBalst.getAlpha = function(){
 			return alpha;
@@ -714,4 +863,3 @@ var word_matrix = {黄 : [
             [2,2],[3,3],[4,4]
         ]};
 
-</=></=>
