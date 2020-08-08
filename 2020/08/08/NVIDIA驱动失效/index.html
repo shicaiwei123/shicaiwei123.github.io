@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="韦仕才">
 <meta property="og:description" content="背景 因为某些原因我们常常需要更新ubuntu的内核，或者说它自己更新的时候更新了内核，这时候，我们之前装的驱动就会失效。需要我们的重新配置驱动。 即： NVIDIA-SMI has failed because it couldn’t communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is in">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-08-08T09:29:50.742Z">
+<meta property="og:updated_time" content="2020-08-08T09:36:38.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu NVIDIA 驱动失效">
 <meta name="twitter:description" content="背景 因为某些原因我们常常需要更新ubuntu的内核，或者说它自己更新的时候更新了内核，这时候，我们之前装的驱动就会失效。需要我们的重新配置驱动。 即： NVIDIA-SMI has failed because it couldn’t communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is in">
@@ -362,7 +362,7 @@
                 
               
 
-              <time title="Created: 2020-08-08 16:38:54 / Modified: 17:29:50" itemprop="dateCreated datePublished" datetime="2020-08-08T16:38:54+08:00">2020-08-08</time>
+              <time title="Created: 2020-08-08 16:38:54 / Modified: 17:36:38" itemprop="dateCreated datePublished" datetime="2020-08-08T16:38:54+08:00">2020-08-08</time>
             
 
             
@@ -412,25 +412,12 @@
 <li><strong>因为我们手动更新内核的时候，下载下来的是直接编译好的内核代码，而不是内核源码。但是所有外部驱动的编译都需要和内核源码一起编译的，所以如果没有内核源码，那么那些方法都会失效，即使你apt-get 成功安装了驱动也没有用，它是不会挂载到内核上去的。问题不会得到解决</strong></li>
 <li><p>如果没有内核源码，采用dkms编译的时候，就会出现如下错误</p>
 <ul>
-<li><figure class="highlight plain"><figcaption><span>return status for module build on kernel: 5.4.0-42-generic on Ubuntu18.04. NVIDIA-SMI failed (nvidia-driver-435)```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 解决</span><br><span class="line">- 这个解决方案，对于手动编更新和自动更新内核这两个起因都适用，甚至都不需要你卸载你原先的驱动。同样熟悉了这个方法之后，你甚至可以为你的ubuntu 内核增加任意的外部驱动。</span><br><span class="line"></span><br><span class="line">- dkms status 　　检查当下我们手动编译过的外部驱动，如果之前没有任何话手动编译外部驱动的经历，应该就是没有返回</span><br><span class="line"></span><br><span class="line">- uname -a　　 查看内核版本</span><br><span class="line">    </span><br><span class="line">    - ```Linux shicaiwei 5.4.0-42-generic #46~18.04.1-Ubuntu SMP Fri Jul 10 07:21:24 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>cd /usr/src　　 查看你目前有没有这个内核的源码，内核的头文件，和你要安装的显卡驱动的源码</p>
-<ul>
-<li>内核源码，一般是linux-xxx,如：linux-5.4 </li>
-<li>内核源码的头文件 ，一般是linux-header-xxx,如： linux-headers-5.4.0-42-generic</li>
-<li>驱动源码，一般是 nvidia-xxx,如：nvidia-440.100</li>
-</ul>
-</li>
-<li><p>驱动源码</p>
-<ul>
-<li>一般而言,如果之前装过驱动,那么是会有驱动的源码的,如果没有,那么就需要重新装一遍驱动,直接<a href="https://blog.csdn.net/tjuyanming/article/details/80862290" target="_blank" rel="noopener">按照这个链接</a> 的方法1进行安装就好</li>
-</ul>
-</li>
-<li><p>内核头文件安装</p>
-<ul>
-<li><figure class="highlight plain"><figcaption><span>apt-get install --reinstall linux-headers-$(uname -r)```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 内核源码下载</span><br><span class="line">    - 到[这个地址](https://mirrors.edge.kernel.org/pub/linux/kernel/)下载你当下内核对应的源码</span><br><span class="line">    - 下载的时候，只要保证大版本号，次版本号对应就好，比如我的内核版本是 ：  5.4.0-42-generic 。下载的内核源码是 5.4.0 的内核源码就行。如果这个列表没有，那么可以直接浏览器搜索，一般很容易搜到。</span><br><span class="line"></span><br><span class="line">- 万事具备，这时候，按照dkms的方法编译就可以成功了。</span><br><span class="line">    - sudo dkms install -m nvidia -v 410.78 #410.78是安装驱动的版本</span><br><span class="line">- dkms status 检查安装结果</span><br><span class="line"></span><br><span class="line">    - dkms 有三个状态 add、build、install。install才表示已经挂载到了内核当中。</span><br><span class="line">    </span><br><span class="line">    - 如: ```nvidia, 440.100, 5.4.0-42-generic, x86_64: installed</span><br></pre></td></tr></table></figure>
+<li><figure class="highlight plain"><figcaption><span>return status for module build on kernel: 5.4.0-42-generic on Ubuntu18.04. NVIDIA-SMI failed (nvidia-driver-435)```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 解决</span><br><span class="line">- 这个解决方案，对于手动编更新和自动更新内核这两个起因都适用，甚至都不需要你卸载你原先的驱动。同样熟悉了这个方法之后，你甚至可以为你的ubuntu 内核增加任意的外部驱动。</span><br><span class="line"></span><br><span class="line">- dkms status 　　检查当下我们手动编译过的外部驱动，如果之前没有任何话手动编译外部驱动的经历，应该就是没有返回</span><br><span class="line"></span><br><span class="line">- uname -a　　 查看内核版本</span><br></pre></td></tr></table></figure>
+<p>Linux shicaiwei 5.4.0-42-generic #46~18.04.1-Ubuntu SMP Fri Jul 10 07:21:24 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- cd /usr/src　　 查看你目前有没有这个内核的源码，内核的头文件，和你要安装的显卡驱动的源码</span><br><span class="line">    - 内核源码，一般是linux-xxx,如：linux-5.4 </span><br><span class="line">    - 内核源码的头文件 ，一般是linux-header-xxx,如： linux-headers-5.4.0-42-generic</span><br><span class="line">    - 驱动源码，一般是 nvidia-xxx,如：nvidia-440.100</span><br><span class="line"></span><br><span class="line">- 驱动源码</span><br><span class="line">    - 一般而言,如果之前装过驱动,那么是会有驱动的源码的,如果没有,那么就需要重新装一遍驱动,直接[按照这个链接](https://blog.csdn.net/tjuyanming/article/details/80862290) 的方法1进行安装就好</span><br><span class="line">- 内核头文件安装</span><br></pre></td></tr></table></figure>
+<p>sudo apt-get install –reinstall   linux-headers-$(uname -r)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 内核源码下载</span><br><span class="line">    - 到[这个地址](https://mirrors.edge.kernel.org/pub/linux/kernel/)下载你当下内核对应的源码</span><br><span class="line">    - 下载的时候，只要保证大版本号，次版本号对应就好，比如我的内核版本是 ：  5.4.0-42-generic 。下载的内核源码是 5.4.0 的内核源码就行。如果这个列表没有，那么可以直接浏览器搜索，一般很容易搜到。</span><br><span class="line"></span><br><span class="line">- 万事具备，这时候，按照dkms的方法编译就可以成功了。</span><br><span class="line">    - sudo dkms install -m nvidia -v 410.78 #410.78是安装驱动的版本</span><br><span class="line">- dkms status 检查安装结果</span><br><span class="line"></span><br><span class="line">    - dkms 有三个状态 add、build、install。install才表示已经挂载到了内核当中。</span><br><span class="line">    </span><br><span class="line">    -</span><br></pre></td></tr></table></figure>
+<p> 如 nvidia, 440.100, 5.4.0-42-generic, x86_64: installed<br>  <code>`</code></p>
 </li>
 </ul>
 </li>
