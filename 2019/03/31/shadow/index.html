@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述 生活中经常会遇到各种需要科学上网的时候，这自不必多说。但是对于新手来说，从零开始学习翻墙还是比较麻烦，所以特意写一篇教程。    总的来说就是免费和花钱两类，刚开始的时候就特别不想在这上面花钱，总想着用免费的东西，这样的东西也确实是有，不过绝对免费的翻墙服务是没有的，就算是广为人知的lantern也是有着每月500M的流量限制。如果只是偶尔用用还没什么，如果是经常使用花钱是不可避免的  花钱">
+<meta name="keywords" content="shadowsocks,VPS,翻墙,ubuntu,windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu和Windows系统下shadowsocks翻墙服务配置">
+<meta property="og:url" content="https://shicaiwei123.github.io/2019/03/31/shadow/index.html">
+<meta property="og:site_name" content="韦仕才">
+<meta property="og:description" content="概述 生活中经常会遇到各种需要科学上网的时候，这自不必多说。但是对于新手来说，从零开始学习翻墙还是比较麻烦，所以特意写一篇教程。    总的来说就是免费和花钱两类，刚开始的时候就特别不想在这上面花钱，总想着用免费的东西，这样的东西也确实是有，不过绝对免费的翻墙服务是没有的，就算是广为人知的lantern也是有着每月500M的流量限制。如果只是偶尔用用还没什么，如果是经常使用花钱是不可避免的  花钱">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/shadowsocks/manege.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/shadowsocks/shadowsocks.png">
+<meta property="og:updated_time" content="2019-04-10T03:47:22.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu和Windows系统下shadowsocks翻墙服务配置">
+<meta name="twitter:description" content="概述 生活中经常会遇到各种需要科学上网的时候，这自不必多说。但是对于新手来说，从零开始学习翻墙还是比较麻烦，所以特意写一篇教程。    总的来说就是免费和花钱两类，刚开始的时候就特别不想在这上面花钱，总想着用免费的东西，这样的东西也确实是有，不过绝对免费的翻墙服务是没有的，就算是广为人知的lantern也是有着每月500M的流量限制。如果只是偶尔用用还没什么，如果是经常使用花钱是不可避免的  花钱">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/shadowsocks/manege.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://shicaiwei123.github.io/2019/03/31/shadow/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ubuntu和Windows系统下shadowsocks翻墙服务配置 | 韦仕才</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">韦仕才</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">用技术改变生活</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-首页"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-标签"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-归档"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://shicaiwei123.github.io/2019/03/31/shadow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shicai Wei">
+      <meta itemprop="description" content="生活随笔，极客技术">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="韦仕才">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ubuntu和Windows系统下shadowsocks翻墙服务配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-31 11:15:18" itemprop="dateCreated datePublished" datetime="2019-03-31T11:15:18+08:00">2019-03-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-10 11:47:22" itemprop="dateModified" datetime="2019-04-10T11:47:22+08:00">2019-04-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/极客技术/" itemprop="url" rel="index"><span itemprop="name">极客技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><ul>
+<li><p>生活中经常会遇到各种需要科学上网的时候，这自不必多说。但是对于新手来说，从零开始学习翻墙还是比较麻烦，所以特意写一篇教程。  </p>
+</li>
+<li><p>总的来说就是免费和花钱两类，刚开始的时候就特别不想在这上面花钱，总想着用免费的东西，这样的东西也确实是有，不过绝对免费的翻墙服务是没有的，就算是广为人知的lantern也是有着每月500M的流量限制。如果只是偶尔用用还没什么，如果是经常使用花钱是不可避免的</p>
+</li>
+<li><p>花钱的话也有着两种服务，一种是买别人提供的服务，另一种就是自己利用服务器搭建提供服务。第一种不必多说，第二种相对麻烦很多，但是更安全，而且基于服务器搭建的翻墙服务理论上是可以提供给很多人使用，也就是你自己变成了提供服务的人，甚至靠这个盈利，当然这是犯法的！愿大家珍爱生命。</p>
+</li>
+<li>本次教程的主题就是自己利用服务器在linux和Windows系统下实现翻墙服务的搭建</li>
+</ul>
+<h1 id="原理介绍"><a href="#原理介绍" class="headerlink" title="原理介绍"></a>原理介绍</h1><ul>
+<li>所谓翻墙就是翻出防火墙，每台电脑都有自己的防火墙，可以控制什么程序可以和外网沟通什么不可以，外面的什么的东西可以进来什不可以。这不过这里的防火墙是国家的防火墙，禁止国内对一些外国访问。</li>
+<li>翻墙的原理就是和一个不受管理的主机建立直接联系，然后将所有的访问都通过那个主机向往进行。这里不受管理的主机就是中转服务器，其实也就就是一台国外的电脑，因为国外的电脑是不受这个防火墙限制的，之所以叫服务器这不过是因为这时候这台电脑在提供着数据中转这个服务。建立连接就是我们要实现的过程，不过现在已经有客户端可以直接实现，所以也相对简单</li>
+</ul>
+<h1 id="准备材料"><a href="#准备材料" class="headerlink" title="准备材料"></a>准备材料</h1><ul>
+<li><p>一台国外的VPS服务器。</p>
+<ul>
+<li>一般推荐<a href="https://bwh1.net/index.php" target="_blank" rel="noopener">搬瓦工</a></li>
+<li>如果不能访问，多半是被墙了，可以从这个<a href="https://www.cmsky.com/bandwagonhost-access-failed/" target="_blank" rel="noopener">链接</a>尝试访问</li>
+<li>如果还是不行，就只能自己去<a href="https://tieba.baidu.com/f?kw=%B0%E1%CD%DF%B9%A4&amp;fr=ala0&amp;tpl=5&amp;traceid=" target="_blank" rel="noopener">搬瓦工吧</a>看看，应该会有相应简答</li>
+<li>按照自己的需求购买服务器，一般可以按年购买，如果太贵可以按月购买，每月月底续费</li>
+<li>其他的国外服务器提供商也可以</li>
+</ul>
+</li>
+<li><p>shadowsocks 本地使用的翻墙客户端</p>
+<ul>
+<li><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">Windows下载地址</a></li>
+<li><a href="https://my.oschina.net/airship/blog/1812419" target="_blank" rel="noopener">ubuntu配置</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="shadowsocks配置"><a href="#shadowsocks配置" class="headerlink" title="shadowsocks配置"></a>shadowsocks配置</h1><ul>
+<li>在搬瓦工官网购买服务器后，官网会有相应教程教怎么配置。</li>
+<li>如下图，进入管理界面后<img src="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/shadowsocks/manege.jpg" alt></li>
+<li>直接下拉找到如下选择，点击就直接在服务器安装shadowsocks，之后再按照上面的教程在客户端配置就可以<br><img src="https://raw.githubusercontent.com/shicaiwei123/markdown_photo/master/geek/shadowsocks/shadowsocks.png" alt></li>
+<li>配置好了服务器端，客户端直接参见页面最下方的配置教程即可。而且ubuntu和Windows下的客户端配置都是一样的，唯一不同的就是ubuntu下还需要再设置一下网络代理，而Windows端则不需要</li>
+</ul>
+<h1 id="ubuntu下网络代理设置"><a href="#ubuntu下网络代理设置" class="headerlink" title="ubuntu下网络代理设置"></a>ubuntu下网络代理设置</h1><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><ul>
+<li>在ubuntu下设置好了shadowsocks客户端，启动了之后发现任然不能翻墙，是因为虽然本地端的这个功能已经打开了，但是我们却还没有使用这个功能，所以任然不能翻墙。至于为什么Windows没有这个功能，猜想是Windows没有提供网络代理的配置选项，一旦打开之后默认使用（这个猜想很有可能不对，，，）<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2></li>
+<li>那么怎么配置呢？总的来说就有两个办法<ul>
+<li>一共是系统上直接全局配置就是所有的出口流量全部从这个翻墙接口中走，而不仅仅是浏览器的流量</li>
+<li>另一个则是只对浏览器配置，让浏览器的出口流量都从这个翻墙接口出去，而其他的则还是正常接口</li>
+</ul>
+</li>
+<li><p>全局配置</p>
+<ul>
+<li>系统设置-&gt;网络-&gt;网络代理</li>
+<li>选择手动，填入参数就可以</li>
+</ul>
+</li>
+<li><p>浏览器配置</p>
+<ul>
+<li>以google浏览器为例，不过这个也需要先使用全局配置才能进行</li>
+<li>使用全局配置，登录google，下载插件</li>
+<li>配置插件</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          
+            <a href="/tags/VPS/" rel="tag"># VPS</a>
+          
+            <a href="/tags/翻墙/" rel="tag"># 翻墙</a>
+          
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+          
+            <a href="/tags/windows/" rel="tag"># windows</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/24/ubuntu下conda+pytorch+opencv环境配置/" rel="next" title="ubuntu下conda+pytorch+opencv环境配置">
+                <i class="fa fa-chevron-left"></i> ubuntu下conda+pytorch+opencv环境配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/16/opencv/" rel="prev" title="ubuntu下opencv安装与使用">
+                ubuntu下opencv安装与使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Shicai Wei</p>
+              <div class="site-description motion-element" itemprop="description">生活随笔，极客技术</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/shicaiwei123" title="GitHub &rarr; https://github.com/shicaiwei123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:shicaiwei365@163.com" title="E-Mail &rarr; mailto:shicaiwei365@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原理介绍"><span class="nav-number">2.</span> <span class="nav-text">原理介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备材料"><span class="nav-number">3.</span> <span class="nav-text">准备材料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shadowsocks配置"><span class="nav-number">4.</span> <span class="nav-text">shadowsocks配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ubuntu下网络代理设置"><span class="nav-number">5.</span> <span class="nav-text">ubuntu下网络代理设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">5.1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shicai Wei</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18.5k字</span>
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

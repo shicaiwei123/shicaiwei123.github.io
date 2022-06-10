@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
+<meta name="keywords" content="12306,抢票">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12306抢票程序配置使用">
+<meta property="og:url" content="https://shicaiwei123.github.io/2019/12/17/12306/index.html">
+<meta property="og:site_name" content="韦仕才">
+<meta property="og:description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-23T13:45:16.425Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="12306抢票程序配置使用">
+<meta name="twitter:description" content="背景考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。 事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置">
+
+
+
+
+
+
+  <link rel="canonical" href="https://shicaiwei123.github.io/2019/12/17/12306/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>12306抢票程序配置使用 | 韦仕才</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">韦仕才</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">用技术改变生活</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-首页"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-标签"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-归档"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://shicaiwei123.github.io/2019/12/17/12306/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shicai Wei">
+      <meta itemprop="description" content="生活随笔，极客技术">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="韦仕才">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">12306抢票程序配置使用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-17 14:32:06" itemprop="dateCreated datePublished" datetime="2019-12-17T14:32:06+08:00">2019-12-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-12-23 21:45:16" itemprop="dateModified" datetime="2019-12-23T21:45:16+08:00">2019-12-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>考虑最近要回家了，然后想起过去每次回家抢火车票的艰辛，就打算自己写一个抢票程序。转眼一想，这么高需求的东西，想来应该有人做过了，所以到github搜索了一波，确实还真有不少。其中排行第一的已经有18.5k的stars了。想来star那么多，应该很稳，所以就以这个为基础，如果可行就直接用，不可行再修改。</p>
+<p>事实证明确实还是有蛮大的问题的，代码本身的问题不多，但是毕竟林子大了什么鸟都有，每个人在配置环境的时候总会遇到各种奇奇怪怪的问题。所以直接按照给的教程来的话还是存在很多问题。中间也填了蛮多坑。</p>
+<p>然后意外的是，今年回家的票异常好卖，所以觉得可能都差不多，也就没有想着写一个填坑的教程。直到看到朋友圈还在有人为抢票奔波，所以就把之前配置环境时遇到的一些问题整理出来。</p>
+<p>在介绍解决方案之前，会先以流程和需求的技术为标准进行划分，介绍一下抢票程序逻辑。然后就是环境配置中遇到的问题和解决。最后根据用户需求，增加了一个购票时间区间的选择功能</p>
+<h2 id="抢票程序逻辑"><a href="#抢票程序逻辑" class="headerlink" title="抢票程序逻辑"></a>抢票程序逻辑</h2><p>可以简单的将抢票程序分为三个环节：登录，余票查询；下单。</p>
+<p>登录环节，需要解决的就是验证码识别问题，（众所周知12306的图片验证码非常没有人性）。如果要自动识别的话，一般会用到图片识别技术，识别图像中存在的东西是什么，具体存在于图像的哪一个位置。然后结合用户名和密码登录就可。</p>
+<p>登录之后需要根据用户想要的出发站，到站，实时刷新查看还有没有票。特别是在抢购不定期放票和用户随机退的票的时候。这一步的核心就是要能把余票情况爬下来。要用到的技术就是爬虫技术，想要了解到详细内容可以看这个<a href="https://www.jianshu.com/p/89f6170991c8" target="_blank" rel="noopener">余票查询介绍</a>。</p>
+<p>然后根据爬下来的余票情况，再根据用户的需求，比如车次，车辆类型(高铁动车，快车，直达。。。)出发时间，位置情况（如一等，二等，卧铺，坐票。。。）。这就是下单过程，这一部分没有什么比较难的技术，就是条件匹配筛选。</p>
+<h2 id="抢票程序"><a href="#抢票程序" class="headerlink" title="抢票程序"></a>抢票程序</h2><p>在github上看了一圈后，选择了这个star数18.5k的<a href="https://github.com/testerSunshine/12306" target="_blank" rel="noopener">抢票代码</a>.虽然star数很高，但是环境配置的教程写的有些不够准确。而且代码本身还有一些需要的地方。不过代码的结构很好，修改很方便，而且因为经过了多次迭代，逻辑没有大的问题。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我安装的方法是按照教程的流程来的，然后利用conda单独新建了一个虚拟环境，大家如果也是用虚拟环境的话应该差别不会很大。无论是windows还是ubuntu理论上应该都一样。其次就是不会受到之前装的包的影响。所以还是推荐大家使用虚拟环境配置。如果利用conda，利用虚拟环境配置的话，这篇教程应该能解决你的绝大部分，甚至所有问题。</p>
+<p>所以教程是假设大家已经安装了anaconda3，并且使用conda 虚拟环境配置的前提下，对可能遇到的问题分析。如果不使用虚拟环境，也可能会遇到这些问题。但是可能就不止这些问题了。</p>
+<p>其次不推荐使用docker安装！！！，虽然这个东西看起来很方便，但是好像docker镜像有问题，而且出了问题还不知道怎么修改。所以还是推荐大家自己配置环境。当然要是对docker很了解，觉得自己可以解决其中遇到任何的问题，可以使用docker。</p>
+<p>还有，在安装下载ChromeDriver的时候，注意它和chrome浏览器的版本对应关系。我因为最开始就直接选好了版本，所以没有这个问题。但是如果版本选择不对，可能还是会出现问题。版本对应关系可以在这个<a href="https://blog.csdn.net/BinGISer/article/details/88559532" target="_blank" rel="noopener">链接</a>查看</p>
+<p>虽然有用到tensorflow，但是基本不需要看这一部分代码。模型在仓库中也自带了，不需要额外下载。其次也不需要GPU,不需要GPU，不需要GPU。重要的事情说三遍。靠CPU就可以跑这个模型。所以机器学习这一块，只要tensorflow装好，其他基本就没有问题了。</p>
+<p>如果还遇到了其他问题，那就在issue中搜索一番，一般来说都能找到一些解决思路。而且还可以尝试去多个项目中搜索而不局限于我们选择的这个项目。github上搜索12306还是有很多可以参考的项目的，这个只是其中一个。</p>
+<h2 id="问题和解决"><a href="#问题和解决" class="headerlink" title="问题和解决"></a>问题和解决</h2><ul>
+<li><p>a</p>
+<ul>
+<li><p>错误</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sendServerChanUrls[&quot;req_url&quot;] += f&apos;&#123;secret&#125;.send&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>原因</p>
+<p>  f函数在python3中才支持，如果python 运行，一般默认是python2，如果你只装了python3那就当我没说。然后教程给出直接是python run.py，就可能会出这个错。</p>
+</li>
+<li>解决  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python3 run.py</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>b</p>
+<ul>
+<li><p>错误</p>
+<p>  tensorflow安装错误</p>
+</li>
+<li><p>原因</p>
+<p>  在requestments中用到的tensorflow版本是1.15rc01，但是好像安装的时候是没有这个版本的，不知道是不是后来被删除了。</p>
+</li>
+<li><p>解决</p>
+<p>  采用一个接近的版本就好了，比如我安装了1.14rc01</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>c</p>
+<ul>
+<li><p>错误</p>
+<p>  安装tensorflow报错Memory error</p>
+</li>
+<li><p>原因</p>
+<p>  未知</p>
+</li>
+<li><p>解决</p>
+<pre><code>pip install --no-cache-dir tensorflow==1.14rc01
+</code></pre></li>
+</ul>
+</li>
+<li><p>d</p>
+<ul>
+<li><p>错误</p>
+<pre><code>unknown error: DevToolsActivePort file 
+</code></pre></li>
+<li><p>原因</p>
+<p>  服务器没有图形化界面运行错误</p>
+</li>
+<li><p>解决</p>
+<p>  修改config/getCookie.py,向webdriver.chrome()函数传入额外参数，关闭沙箱模式、无头运行chrome。代码如下图所示</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">15         from selenium import webdriver</span><br><span class="line">16         options= webdriver.ChromeOptions()</span><br><span class="line">17         options.add_argument(&apos;--headless&apos;)</span><br><span class="line">18         options.add_argument(&apos;--no-sandbox&apos;)</span><br><span class="line">19   </span><br><span class="line">20         cookies = []</span><br><span class="line">21         driver = webdriver.Chrome(executable_path=TickerConfig.CHROME_PATH,chrome_options=options)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>e </p>
+<ul>
+<li><p>错误</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Non-ASCII character &apos;\xe5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>原因</p>
+<p>  字符格式问题</p>
+</li>
+<li><p>解决</p>
+<p>  在TickerConfig.py开头 增加 # -<em>- coding=utf-8 -</em>-，好像新的版本已经解决了这个问题  </p>
+</li>
+</ul>
+</li>
+<li><p>f</p>
+<ul>
+<li><p>错误</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebDriverException:Message:&apos;chromedriver&apos; executable needs to be in PATH</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>原因</p>
+<p>  使用docker时候出现的问题，而且自己单独利用<a href="https://sites.google.com/a/chromium.org/chromedriver/getting-started" target="_blank" rel="noopener">官方测试</a>代码测试了，如果不在docker环境内使用是没有问题的。猜测是docker环境本事是一个独立容器，所以可能和系统完全隔离开了，访问不了系统中文件。</p>
+<p>  或者如果是windows用户，可能是没有把chromedriver.exe执行文件放到chrome浏览器目录下。至于为什么这样会报错，也不是很清楚。</p>
+</li>
+<li><p>解决</p>
+<p>  不使用docker镜像，然后自己建立一个虚拟环境，配置环境，同样的指定路径的方式，就没有这个问题。  </p>
+<p>  将chromedriver.exe放到chrome浏览器目录下，如(（如 C:\Program Files\Google\Chrome\Application）)</p>
+</li>
+</ul>
+</li>
+<li><p>g</p>
+<ul>
+<li><p>错误</p>
+<p>  /passport/web/login返回参数为空, 接口状态码: 302  </p>
+</li>
+<li><p>原因</p>
+<p>  如果是登录时候遇到这个问题，可以先等上几分钟，做些其他事情。如果还是不行。可能就是ip被封了。如果是登录成功了，但是爬虫尝试去爬取余票情况的时候遇到这个问题。估计是查询的接口变了，12306为了防止恶意刷票，一般一天或者几天就会把查票接口改一下。</p>
+</li>
+<li><p>解决</p>
+<p>  如果是登录遇到这个问题，而且等了几分钟还不行就换一台电脑或者在局域网环境下改一个IP，再去尝试了最简单的就是换一个wifi。如果这样还不行，那封的可能就是你的账号了，就只能等官网解封了。这时候你如果还想买票只能用12306 app了。</p>
+<p>  如果是查询余票的时候遇到这个问题。可以自己先登录12306官网，随便选择一个出发站，达到站，点击查询。然后按F12查看网页源码。点击 init?linktypeid=dc 文件，看第14行查票接口是什么。然后在源代码 select_ticket_info.py的第45行将查票接口改成现在的接口。</p>
+<p>  如果改了接口还不行，注意看看自己的时间格式是不是正确的，注意如果要买1月16号的票，不能写成 “2020-1-16”，需要写成“2020-01-16”。否则就算改了查询接口，还是会报错，我最开始就在这里卡住了半天</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="修补"><a href="#修补" class="headerlink" title="修补"></a>修补</h2><p>原程序中没有时间区间的限制。也就是，将余票情况都爬取下来，按照时间顺序来检索。然后就有可能出现，抢到了早上六点的票，但是实际上你并不想要这个票，所以基于这个需求，在原始代码的基础上增加了时间区间的限制。</p>
+<p>配置的方式和其他限制条件一样，都在TickerConfig.py中配置</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>如果大家对对相关内容都不怎么了解的，而又想使用的话，可以按照下面的流程进行配置。唯一需要的是装好一个anaconda3，以及一点点的python知识。如果你连这些都没有，那么再见。。。</p>
+<p>下面的配置流程是在win10上进行的，ubuntu应该也是类似的。</p>
+<ul>
+<li>下载源码并解压<ul>
+<li>在<a href="https://github.com/shicaiwei123/12306" target="_blank" rel="noopener">我的仓库</a>中下载源码.大家也可以在<a href="https://github.com/testerSunshine/12306" target="_blank" rel="noopener">原始仓库</a>中下载最新源码，可能会增加新功能，也可能会增加新bug，所以如果是小白，还是推荐到我的仓库中下载，而不是去下载最新的代码。至少就目前的版本而言功能已经很充分了。</li>
+</ul>
+</li>
+<li><p>创建conda环境</p>
+<ul>
+<li>打开cmd环境，然后输入下面代码   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n 12306 python=3.6 pip</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>安装环境依赖</p>
+<ul>
+<li>在cmd中 利用cd 命令进入到下载代码的工程目录中。</li>
+<li>然后在命令行中依次输入如下代码：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda activate 12306</span><br><span class="line">python -m pip install --upgrade pip</span><br><span class="line">pip install -r  requirements.txt</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>下载合适版本chromedriver</p>
+<ul>
+<li>在Chrome浏览器设置–关于chrome中查看chrome版本</li>
+<li>在<a href="https://blog.csdn.net/BinGISer/article/details/88559532" target="_blank" rel="noopener">版本对应关系</a> 这个链接中查看版本对应关系</li>
+<li>在这个<a href="http://chromedriver.storage.googleapis.com/index.html" target="_blank" rel="noopener">下载链接</a>中下载对应版本的chromedriver</li>
+<li>解压放到chrome浏览器目录下，放到chrome浏览器目录下，放到chrome浏览器目录下，重要的是说三遍(（如 C:\Program Files\Google\Chrome\Application）)</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>配置提醒服务</p>
+<ul>
+<li>这里有两个选择，邮箱和sever酱，如果有github账户的话，其实两个配置复杂程度差不多。不然邮件配置应该会相对简单一些。</li>
+<li>以QQ邮箱为例<ul>
+<li>登录QQ邮箱—设置—常规—STMP服务—开启</li>
+<li>如果本来已经开启了，就直接看下面有获取授权码的提示，获取授权码。</li>
+<li>然后剩下的就简单了，TickerConfig.py的82行处，email，note_email,username 都填你的邮箱，password填授权码</li>
+<li>邮箱的配置就结束了</li>
+</ul>
+</li>
+<li>下面的是sever酱配置流程</li>
+<li>注册一个github账号<ul>
+<li>如果有了直接跳过，如果没有也很简单</li>
+<li>按照这个<a href="https://blog.csdn.net/qq_32558577/article/details/79579286" target="_blank" rel="noopener">教程</a>完成第一大步就可以</li>
+</ul>
+</li>
+<li>到这个<a href="http://sc.ftqq.com/3.version" target="_blank" rel="noopener">链接</a>中进行配置</li>
+<li>最好直接再测试一下是否成功<ul>
+<li>python run.py t</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>修改 TickerConfig.py信息</p>
+<ul>
+<li>修改个人信息</li>
+<li>94行填入你的server酱的secret</li>
+<li>123行，修改你的chromedriver路径，你放在哪就填哪</li>
+<li>其他的配置用默认配置就可以，如果你还想修改，可以跑通之后再修改</li>
+</ul>
+</li>
+<li><p>修改查询余票接口</p>
+<ul>
+<li>在这个<a href="https://kyfw.12306.cn/otn/leftTicket/init?linktypeid=dc&amp;fs=%E5%8C%97%E4%BA%AC,BJP&amp;ts=%E4%B8%8A%E6%B5%B7,SHH&amp;date=2019-12-21&amp;flag=N,N,Y" target="_blank" rel="noopener">连接</a>中，随机选择出发站，终点站，日期，然后查询</li>
+<li>按下F12,或者设置–更多工具，开发者工具</li>
+<li>在弹出界面中找到 /init?linktypeid开头文件，点击</li>
+<li>第14行查看查票接口，特别关注最后一个大写字母</li>
+<li>和/init/select_ticket_info.py的46行对比，看看最后一个大写字母是否一样，不一样的话改成现在网页的这个大写字母</li>
+</ul>
+</li>
+<li><p>运行</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python run.py t</span><br><span class="line">python run.py c</span><br><span class="line">python run.py r</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/12306/" rel="tag"># 12306</a>
+          
+            <a href="/tags/抢票/" rel="tag"># 抢票</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/11/endnote/" rel="next" title="ubuntu18.04系统下NVIDIA显卡驱动+cuda+cudnn安装+conda虚拟环境配置">
+                <i class="fa fa-chevron-left"></i> ubuntu18.04系统下NVIDIA显卡驱动+cuda+cudnn安装+conda虚拟环境配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/08/NVIDIA驱动失效/" rel="prev" title="ubuntu NVIDIA 驱动失效">
+                ubuntu NVIDIA 驱动失效 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Shicai Wei</p>
+              <div class="site-description motion-element" itemprop="description">生活随笔，极客技术</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/shicaiwei123" title="GitHub &rarr; https://github.com/shicaiwei123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:shicaiwei365@163.com" title="E-Mail &rarr; mailto:shicaiwei365@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序逻辑"><span class="nav-number">2.</span> <span class="nav-text">抢票程序逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抢票程序"><span class="nav-number">3.</span> <span class="nav-text">抢票程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">4.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题和解决"><span class="nav-number">5.</span> <span class="nav-text">问题和解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修补"><span class="nav-number">6.</span> <span class="nav-text">修补</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">7.</span> <span class="nav-text">实践</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shicai Wei</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18.5k字</span>
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="引言记录latex的学习过程和在使用latex进行论文写作中遇到的问题和解决方案。 latex基本知识 这部分的参考链接 https://liam.page/2014/09/08/latex-introduction/ http://liuchengxu.org/blog-cn/posts/quick-latex/   本质其实就是一种类似html，markdown的标记语言，只不过相比起来所具有">
+<meta name="keywords" content="机器学习，嵌入式开发，随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="latex论文写作应用(含代码)">
+<meta property="og:url" content="https://shicaiwei123.github.io/2020/10/20/latex/index.html">
+<meta property="og:site_name" content="韦仕才">
+<meta property="og:description" content="引言记录latex的学习过程和在使用latex进行论文写作中遇到的问题和解决方案。 latex基本知识 这部分的参考链接 https://liam.page/2014/09/08/latex-introduction/ http://liuchengxu.org/blog-cn/posts/quick-latex/   本质其实就是一种类似html，markdown的标记语言，只不过相比起来所具有">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-12-07T09:30:54.269Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="latex论文写作应用(含代码)">
+<meta name="twitter:description" content="引言记录latex的学习过程和在使用latex进行论文写作中遇到的问题和解决方案。 latex基本知识 这部分的参考链接 https://liam.page/2014/09/08/latex-introduction/ http://liuchengxu.org/blog-cn/posts/quick-latex/   本质其实就是一种类似html，markdown的标记语言，只不过相比起来所具有">
+
+
+
+
+
+
+  <link rel="canonical" href="https://shicaiwei123.github.io/2020/10/20/latex/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>latex论文写作应用(含代码) | 韦仕才</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">韦仕才</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">用技术改变生活</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-首页"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-标签"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-归档"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://shicaiwei123.github.io/2020/10/20/latex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shicai Wei">
+      <meta itemprop="description" content="生活随笔，极客技术">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="韦仕才">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">latex论文写作应用(含代码)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-10-20 21:27:12" itemprop="dateCreated datePublished" datetime="2020-10-20T21:27:12+08:00">2020-10-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-12-07 17:30:54" itemprop="dateModified" datetime="2020-12-07T17:30:54+08:00">2020-12-07</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>记录latex的学习过程和在使用latex进行论文写作中遇到的问题和解决方案。</p>
+<h2 id="latex基本知识"><a href="#latex基本知识" class="headerlink" title="latex基本知识"></a>latex基本知识</h2><ul>
+<li>这部分的参考链接<ul>
+<li><a href="https://liam.page/2014/09/08/latex-introduction/" target="_blank" rel="noopener">https://liam.page/2014/09/08/latex-introduction/</a></li>
+<li><a href="http://liuchengxu.org/blog-cn/posts/quick-latex/" target="_blank" rel="noopener">http://liuchengxu.org/blog-cn/posts/quick-latex/</a></li>
+</ul>
+</li>
+<li>本质其实就是一种类似html，markdown的标记语言，只不过相比起来所具有的标记更加多样和复杂而已。<ul>
+<li>或者还可以再拿代码中的宏定义来理解，把一些特定的序列定义为某些操作，某些意思，方便后面的使用。这种特定的序列在latex就叫做是控制序列</li>
+<li>所有的的标记符号，或者说控制序列，都是以反斜杠 “\”开始，如\ref。。它们不被输出，但是他们会影响输出文档的效果。</li>
+<li>控制序列可以在文中的任何一个位置加入，而不仅仅只是开头</li>
+</ul>
+</li>
+<li>作用范围<ul>
+<li>刚刚提到latex本质是一种标记语言，用来随时随地的控制文档的文字排版等效果，那么怎么选择我要控制的文字呢？</li>
+<li>一个是\begin 和\end 。这两个控制序列以及他们中间的内容被称为「环境」；它们之后的第一个必要参数总是一致的，被称为环境名。如\begin{eqution} \end{eqution}. 就是一个公式环境，中间你输入的公式就会被辅以某种特定的排版。具体要看不同的环境的作用<br>另一个则是{}，把需要标记的文本框起来，而文字的效果则是看具体的操作。如\textbf{a} 就是把a加粗。</li>
+<li>其他类似的还有$$等，都是类似的，把需要标记的语言框起来就行。</li>
+</ul>
+</li>
+<li>编译器和编辑器<ul>
+<li>刚刚提到latex 本质是一种标记语言，那么就肯定存在一个映射关系，记录着什么对应什么。而latex编译器就是记录这个映射的关系的东西。所以无论是你在那写的latex文档，txt，word，等等，只要你利用编译器编译，都可以得到编译之后的规范的文本文档。而你写东西的地方，被称为编辑器。</li>
+<li>最开始编译器和编辑器是分开的，后来为了方便用户使用，就合在了一起，叫做IDE发行，比如textstuido。但是实际上过程还是两个过程，latex文本的编辑和编译生成规范文本。就好像你写程序时候的 写代码的过程和编译代码的过程，本质是两个过程，但是你确实在同一个应用上实现的。</li>
+</ul>
+</li>
+<li><p>开发工具</p>
+<ul>
+<li>textstudio</li>
+<li>overleaf<ul>
+<li>推荐使用这个。这是一个网页工具，任何时候只要又网络就可以接入。当然坏处就是没网就不能用。</li>
+<li>另外去这个不需要配置环境，尤其是中文的开发环境，直接进行开发就行，最大化的降低了用户在编写文档之外其他的精力开销。而其他的工具光是环境可能就需要你去配置很久。</li>
+<li>最后，这是一个多端的工具，win linux都可以，而其他的工具往往只在win或者linux环境某一个环境下工作，换一个工作环境就要重新配置一个开发工具非常麻烦</li>
+<li>自带一个历史回溯，甚至不需要你去进行git管理。</li>
+<li>自带许多模板，不需要自己再去为模板发愁</li>
+<li>当然，最重要的还是它免费</li>
+<li>本教程的相关代码也会通过overleaf的方式进行展示。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>overleaf 编译器</p>
+<ul>
+<li>点击左上角的Meau 或者中文的菜单选项可以配置</li>
+<li>默认是pdfLatex，如果要编译中文可以换成XeLatex</li>
+</ul>
+</li>
+<li><p>导言区</p>
+<ul>
+<li>从 \documentclass{article} 开始到 \begin{document} 之前的部<br>分被称为导言区。你可以将导言区理解为是对整篇文档进行设置的区域——在导言区出现的控制序列，往往会影响整篇文档的格式</li>
+</ul>
+</li>
+<li>宏包<ul>
+<li>所谓宏包，就是一系列控制序列的合集。这些控制序列太常用，以至于人们会觉得每次将他们写在导言区太过繁琐，于是将他们打包放在同一个文件中，成为所谓的宏包（台湾方面称之为「巨集套件」）。\usepackage{} 可以用来调用宏包。</li>
+</ul>
+</li>
+<li>文档正文<ul>
+<li>也就是\begin{document}到\end{document}之间的内容。只有在 document 环境中的内容，才会被正常输出到文档中去或是作为控制序列对文档产生影响。也就是写作文档正文中的各种标记才会起作用</li>
+</ul>
+</li>
+<li>latex文档结构<ul>
+<li>导言区和文档正文</li>
+<li>导言区里面控制正文的大体格式，这时候可以使用宏包，也可以自己定义。然后正文书写内容</li>
+</ul>
+</li>
+<li><p>模板文件</p>
+<ul>
+<li>.sty 和.cls文件。</li>
+<li>模板文件就有点类似于我们写报告常用的报告模板，格式已经订好了，然后为了方便别人使用，直接把模板，也就是格式文件给他们，然后直接利用这个，进行编辑就好了。而一般格式文件就是.sty 和.cls文件。</li>
+<li>使用的方式，也就是把格式文件放在目录下，在导言区里面引用它们的东西就好了</li>
+</ul>
+</li>
+<li><p>latex 常用操作笔记</p>
+<ul>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/info/lshort/chinese/lshort-zh-cn.pdf" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/CTAN/info/lshort/chinese/lshort-zh-cn.pdf</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="latex-写作问题"><a href="#latex-写作问题" class="headerlink" title="latex 写作问题"></a>latex 写作问题</h2><h3 id="代码参考"><a href="#代码参考" class="headerlink" title="代码参考"></a>代码参考</h3><ul>
+<li>模板链接： <a href="https://www.overleaf.com/read/qbckwmrjjgqm" target="_blank" rel="noopener">https://www.overleaf.com/read/qbckwmrjjgqm</a> 后面所有的操作的代码也都会放在这里面。读者只能阅读，不能修改。</li>
+</ul>
+<h3 id="overleaf-工具"><a href="#overleaf-工具" class="headerlink" title="overleaf 工具"></a>overleaf 工具</h3><ul>
+<li>打开 <a href="https://www.overleaf.com" target="_blank" rel="noopener">https://www.overleaf.com</a> 注册账户</li>
+<li>首页的各个分类标签介绍： <a href="https://blog.csdn.net/xovee/article/details/100734370" target="_blank" rel="noopener">https://blog.csdn.net/xovee/article/details/100734370</a></li>
+<li>点击 New Project 可以创建自己的工程项目。点击按钮后弹出的列的最下面一个选项，点击之后就可以自己搜索各种所需的模板，比如搜索 CVPR 打开搜索的第一个结果 CVPR 2018 Template（不是这个也行，估计再过几年就不是这个了，但是问题不大，打开一个就可以）。通过模板的内容，你就能知道绝大部分的基础latex操作如：加粗，文献引用，等等。</li>
+<li><p>模板链接： <a href="https://www.overleaf.com/read/qbckwmrjjgqm" target="_blank" rel="noopener">https://www.overleaf.com/read/qbckwmrjjgqm</a></p>
+</li>
+<li><p>项目界面和介绍如下图：</p>
+</li>
+</ul>
+<h3 id="输入法问题"><a href="#输入法问题" class="headerlink" title="输入法问题"></a>输入法问题</h3><ul>
+<li>在英语论文写作中，所有的符号必须是英语下的格式符号，特别是 逗号 不然后期编译报错的时候往往就会因为这个编译不成功，而找了半天也找不到错误。</li>
+</ul>
+<h3 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h3><ul>
+<li><font color="#dd0000">相关的代码在参考链接的431行处开始。</font><br> </li>
+<li>所有的数学的符号，公式，都需要放在数学环境里面，否则会报错<ul>
+<li>这个会自动提示，所以不用担心。</li>
+</ul>
+</li>
+<li>行内模式 (inline) 和行间模式 (display)。前者在正文的行文中，插入数学公式；后者独立排列单独成行，并自动居中。<ul>
+<li>使用 $ … $ 可以插入行内公式，使用 $$…$$ 可以插入行间公式</li>
+</ul>
+</li>
+<li>如果需要对公式进行编号，则可以使用 equation 环境：<ul>
+<li>这三个公式环境可以满足几乎7成的数学公式的编辑，特别是 equation。简单易用。</li>
+<li>在公式环境里面的所有的字母不需要再去做斜体变化，它会自己就变成</li>
+</ul>
+</li>
+<li>细节<ul>
+<li>下标: &emsp;_ &emsp; 如 x_{k-1}</li>
+<li>上标：^ &emsp; 如 x^{k-1}</li>
+<li>公式内符号加粗 \bm{} 命令。注意在公式命令中\textbf{}是不能使用的</li>
+</ul>
+</li>
+<li>大括号<ul>
+<li>使用\left \right 可以把需要括起来的公式括起来。<ul>
+<li>这个命令往往需要在equation 环境内使用，并且需要和多行公式的环境使用 如\align.</li>
+<li>所以这个命令就只能对整个大括号进行编号。因为一个equation 环境，就只有一个编号</li>
+</ul>
+</li>
+<li>case+numcases<ul>
+<li>这个可以对大括号内的所有的公式进行单独编号</li>
+<li>需要导入cases的宏包</li>
+<li>这个环境和\algin 环境是不兼容的，不过它本身也自带了多行对齐，所以倒也不用\algin.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>多行对齐<ul>
+<li>\algin 命令，把需要多行对齐的括起来就可以。</li>
+<li>如果是一个等式的多个等号的推到过程的话，需要使用 &amp;= 的方式，具体看例程</li>
+<li>可以单独使用，也可以和equation环境使用</li>
+</ul>
+</li>
+<li>希腊字母<ul>
+<li><a href="https://blog.csdn.net/lanchunhui/article/details/49819445" target="_blank" rel="noopener">https://blog.csdn.net/lanchunhui/article/details/49819445</a></li>
+</ul>
+</li>
+<li>公式截图生成latex<ul>
+<li>当需要输入很多公式的时候，慢慢输入是一件非常恶心的事，这里就推荐一个截图转latex的工具 mathpix.</li>
+<li>mathpix 使用非常简单，这里不做详细介绍。值得一提的是，mathpix 免费版只支持每个月50次截图，如果你想使用更多次，可以每个月交钱，也可以利用多个邮箱注册多个账户，每个账户的使用户次数是独立的。</li>
+</ul>
+</li>
+</ul>
+<h3 id="插图"><a href="#插图" class="headerlink" title="插图"></a>插图</h3><ul>
+<li><font color="#dd0000">相关的代码在参考链接的472行处开始。</font><br> </li>
+</ul>
+<ul>
+<li><p>最简单的插图方式</p>
+<ul>
+<li>\begin{figure}[http]</li>
+<li>\centering   //设置对齐格式,中心对齐</li>
+<li>\includegraphics[width=2cm,height=2.5cm]{shennai.jpeg}{shennai.jpeg}  //指定图形大小和图形名称，一般将该图形放在latex文件同一路径下就不需要指明路径</li>
+<li><p>\caption{Proposed Secure Systolic Montgomery modular MultiplierArchitecture} 设置插图的题注</p>
+</li>
+<li><p>\label{fig:arch} 设置图形引用名称，方便引用</p>
+</li>
+<li>\end{figure}</li>
+<li>常用选项[htbp]是浮动格式，默认为空，可以根据自己需求使用。一般使用[htb]这样的组合，只用[h]是没有用的。这样组合的意思就是latex会尽量满足排在前面的浮动格式，就是h-t-b这个顺序，让排版的效果尽量好。</li>
+<li>『h』当前位置。将图形放置在正文文本中给出该图形环境的地方。如果本页所剩的页面不够，这一参数将不起作用。</li>
+<li>『t』顶部。将图形放置在页面的顶部。</li>
+<li>『b』底部。将图形放置在页面的底部。</li>
+<li>『p』浮动页。将图形放置在一只允许有浮动对象的页面上。</li>
+</ul>
+</li>
+<li><p>调整图像大小</p>
+<ul>
+<li>在\includegraphics[width=2cm,height=2.5cm] 中可以随意调整图像大小，这个在插入多张图像的特别有用，可以自己控制</li>
+<li>也可以使用\includegraphics[width=0.25\textwidth] 按照比例缩放图像。这里的比例不是图像的放大比例，而是纸张的比例。\textwidth 就是纸张宽度，0.25的纸张宽度，其实就是站宽度的1/4，这样的话，是方便插入多张图，不用自己去慢慢算设置长宽是多少。<ul>
+<li>\linewidth - 当前行的宽度</li>
+<li>\columnwidth - 当前分栏的宽度</li>
+<li>\textwidth - 整个页面版芯的宽度</li>
+<li>\paperwidth - 整个页面纸张的宽度    </li>
+<li>\hsize - Plain TeX 的宏，是 TeX 在行末考虑分词换行时使用的宽度</li>
+</ul>
+</li>
+<li>需要在列表环境中使用表格、图片等宽度的时候，用 \linewidth</li>
+<li>插入的图像的大小是一致的时候，推荐使用\textwidth。因为可以根据图像的数量直接确定系数插图。而如果图像大小不一致的时候需要自己控制图像的高度和宽度而不推荐使用\textwidth。因为\textwidth 是按照比例放缩图像，而如果图像大小不同，放缩之后还是不同，非常不美观。从政角度来说自己控制高度和宽度更加通用</li>
+</ul>
+</li>
+<li><p>跨栏插图</p>
+<ul>
+<li>如果模板是双栏的，所有的操作都只是插图在在单栏，如果需要跨过双栏只需要把 \begin{figure} 改成 \begin{figure*}。 同样的 \end 也要修改</li>
+</ul>
+</li>
+<li><p>一行多图</p>
+<ul>
+<li><p>有时候需要一行插入多图，而且每个图都有自己的编号，这时候就需要用到 \subfigure. <font color="#dd0000">\subfigure 本身是一个宏包，需要我们自己导入</font><br></p>
+<ul>
+<li>使用subfigure的时候默认是行排列。 也就是一行多图</li>
+<li>图像编号默认是英语小写字母顺序</li>
+<li>每个子图可以用自己的name，参见例程 494行</li>
+</ul>
+</li>
+<li><p>间隔控制控制参加调整图像大小</p>
+</li>
+</ul>
+</li>
+<li><p>多行多图</p>
+<ul>
+<li>最简单的办法就是是使用subfigure的时候，在想要另起一行的地方，换行，图像也会换行。参见例程524 行</li>
+<li>这样的方式，每一个图像都会有自己的编号，如果想把列当做一个整体呢？每一个列只有一个编号要怎么做？</li>
+</ul>
+</li>
+<li><p>多行多图，按列编号</p>
+<ul>
+<li>subfigure本身不支持内部图片换行，所以结合minipage使用。被minipage 包裹住的图片，会被当做一个整体对待。见例程579行</li>
+<li>minipage可以在每一个includegraphics后跟双斜杠“\”表示换行，也可以像上面代码中写的使用”\vspace{4.pt}”来控制垂直间距，但是需要注意的是”\vspace{4.pt}”必须紧跟在对应的includegraphics，不然得不到想要的结果。</li>
+<li>多行多列的时候，以列为单位，所以输入看起来是两行但是不需要换行。</li>
+<li>同时有两个不同的尺寸控制，一个是minipage的，控制一列的大小，调整的时候整个列都会变换。然后列内的每一个图像也有自己的大小控制。具体可以见例程。</li>
+</ul>
+</li>
+</ul>
+<h3 id="制表"><a href="#制表" class="headerlink" title="制表"></a>制表</h3><ul>
+<li>制表工具: <a href="https://www.tablesgenerator.com/#" target="_blank" rel="noopener">https://www.tablesgenerator.com/#</a><ul>
+<li>可以在线绘制表格，生成对应的latex代码。而且这个工具还可以合并，分离表格，也就是你需要的所有的表格的形状应该都能生成。就算是还有什么不满意可以再单独修改，工作量会少很多。</li>
+<li>不过这个工具好像需要翻墙，如果不能翻墙就只能手工设计。</li>
+</ul>
+</li>
+<li>手动制表<ul>
+<li>参考链接： <a href="https://liam.page/2013/08/04/LaTeX-table/" target="_blank" rel="noopener">https://liam.page/2013/08/04/LaTeX-table/</a></li>
+<li>这个链接包含了丰富的指标的例程。这里做细节分析</li>
+</ul>
+</li>
+<li><p>常用的基本操作</p>
+<ul>
+<li>\begin{tabular}{|l|r|} <ul>
+<li>l r c 就是左右中对齐</li>
+<li>竖线| 表示表格的的竖线，|c|l| 就是表示有两列，第一列居中，第二列居左</li>
+<li>竖线不是必须的，可以根据需求把某列的竖线去掉，后面有例子</li>
+<li>tabular 是可以嵌套的。表格的一个空格也可以是一个tabular，后面会有相关的应用介绍</li>
+</ul>
+</li>
+<li>table 环境<ul>
+<li>为了让表格能够自动编号并尽可能美观的浮动，LaTeX 提供了 table 环境。基本用法如下</li>
+<li>一般要炸tabular外面再加一层 table 环境，才可以加上caption，自动编号等操作</li>
+</ul>
+</li>
+<li>\hine 加横线</li>
+<li>&amp; 表示数据的分割。 |c|l| 只是确定了表格有两列，但是每列是什么数据？就是用 &amp; 做区分的。</li>
+<li>\\ 表示在表格里面另起一行。<ul>
+<li>\\ 必须在tabular 环境里使用。而这时候就存在一种情况，我的一个格子里面想换行怎么办？就需要在这个格子对应的地方重新调用\begin{tabular}. 见例程615 行</li>
+</ul>
+</li>
+<li>总的来说就是竖线和横线确定了表格，&amp;区分实际的表格内容，然后我们是可以对每一个最小单元进行各种操作的。再插入新的表格，或者表格合并等等</li>
+<li><p>表格线条的加粗</p>
+<ul>
+<li><p>需要宏包：\usepackage{booktabs}</p>
+</li>
+<li><p>\toprule</p>
+</li>
+<li>\midrule</li>
+<li>\bottomrule</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>表格合并<ul>
+<li>横向合并表格 例程659<ul>
+<li>只能在\tabular 环境里使用,把单位格子进行合并，而且往往就是在行或者列上操作</li>
+<li>行合并 \multicolumn{3}{|c|}{information}</li>
+<li>3 表示合并三个表格，|c|表示居中 且两边有竖线，information 是表格里面的内容</li>
+<li>合并之后，就没有 &amp; 了。</li>
+</ul>
+</li>
+<li>纵向合并 例程675<ul>
+<li>需要 multirow 宏包的支持</li>
+</ul>
+</li>
+<li>既跨行又跨列<ul>
+<li>实现这样的需求需要将上述两个命令结合起来使用。但是只能用 \multicolumn{cols}{pos}{\multirow{rows}{width}{text}} 这样的形式，而不能反过来嵌套。具体原因不明。</li>
+<li>例程 693行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>表格大小调整<ul>
+<li>\scalebox{0.95}{}, 把最大的begin tabular 包裹住</li>
+<li>\renewcommand\arraystretch{2} 放在table 环境之前，控制列高，数字为几就是几倍。</li>
+</ul>
+</li>
+<li>表格美化<ul>
+<li>上下线条加粗</li>
+<li>两边的竖线去掉</li>
+<li>见例程631行<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3></li>
+</ul>
+</li>
+<li>正确的ref 引用，但是编译之后显示结果不对，一般是label的位置的问题，把label的位置放到caption的后面。公式，图表，都是如此。</li>
+<li>引用需要在tex 文件的最后，加上这两个东西，不然编译的时候就会找不到论文的相关引用，就算你在bib文件中已经写好了引用，cite也能自动检索到，但是编译就是会失败  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\bibliographystyle&#123;ieee&#125;</span><br><span class="line">\bibliography&#123;egbib&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/15/cuda-md/" rel="next" title="多版本cuda管理">
+                <i class="fa fa-chevron-left"></i> 多版本cuda管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/20/内网穿透-md/" rel="prev" title="内网穿透.md">
+                内网穿透.md <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Shicai Wei</p>
+              <div class="site-description motion-element" itemprop="description">生活随笔，极客技术</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/shicaiwei123" title="GitHub &rarr; https://github.com/shicaiwei123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:shicaiwei365@163.com" title="E-Mail &rarr; mailto:shicaiwei365@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#latex基本知识"><span class="nav-number">2.</span> <span class="nav-text">latex基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#latex-写作问题"><span class="nav-number">3.</span> <span class="nav-text">latex 写作问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码参考"><span class="nav-number">3.1.</span> <span class="nav-text">代码参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#overleaf-工具"><span class="nav-number">3.2.</span> <span class="nav-text">overleaf 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入法问题"><span class="nav-number">3.3.</span> <span class="nav-text">输入法问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公式"><span class="nav-number">3.4.</span> <span class="nav-text">公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插图"><span class="nav-number">3.5.</span> <span class="nav-text">插图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制表"><span class="nav-number">3.6.</span> <span class="nav-text">制表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">3.7.</span> <span class="nav-text">注意事项</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shicai Wei</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18.5k字</span>
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

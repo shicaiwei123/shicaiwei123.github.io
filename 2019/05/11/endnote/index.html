@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言 深度学习的显卡环境配置是一个非常麻烦的问题，理论上这是一个深度学习开发必须要面临的问题，那么教程就应该很多，后人学习起来的时候应该会很容易，实际上却是教程良莠不齐，而且很多教程往往是针对特定显卡的，但是这个和作者无关，只是说随着显卡更新换代，之前的很多教程其实就是无法使用了。在这里笔者通过帮室友配置gtx1660ti和自己配置教研室1050ti所遇到的完全不一样的问题做出记录个解决，基本能够">
+<meta name="keywords" content="NVIDIA,CUDA,CUDNN,conda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu18.04系统下NVIDIA显卡驱动+cuda+cudnn安装+conda虚拟环境配置">
+<meta property="og:url" content="https://shicaiwei123.github.io/2019/05/11/endnote/index.html">
+<meta property="og:site_name" content="韦仕才">
+<meta property="og:description" content="前言 深度学习的显卡环境配置是一个非常麻烦的问题，理论上这是一个深度学习开发必须要面临的问题，那么教程就应该很多，后人学习起来的时候应该会很容易，实际上却是教程良莠不齐，而且很多教程往往是针对特定显卡的，但是这个和作者无关，只是说随着显卡更新换代，之前的很多教程其实就是无法使用了。在这里笔者通过帮室友配置gtx1660ti和自己配置教研室1050ti所遇到的完全不一样的问题做出记录个解决，基本能够">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-19T02:22:20.180Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu18.04系统下NVIDIA显卡驱动+cuda+cudnn安装+conda虚拟环境配置">
+<meta name="twitter:description" content="前言 深度学习的显卡环境配置是一个非常麻烦的问题，理论上这是一个深度学习开发必须要面临的问题，那么教程就应该很多，后人学习起来的时候应该会很容易，实际上却是教程良莠不齐，而且很多教程往往是针对特定显卡的，但是这个和作者无关，只是说随着显卡更新换代，之前的很多教程其实就是无法使用了。在这里笔者通过帮室友配置gtx1660ti和自己配置教研室1050ti所遇到的完全不一样的问题做出记录个解决，基本能够">
+
+
+
+
+
+
+  <link rel="canonical" href="https://shicaiwei123.github.io/2019/05/11/endnote/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ubuntu18.04系统下NVIDIA显卡驱动+cuda+cudnn安装+conda虚拟环境配置 | 韦仕才</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">韦仕才</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">用技术改变生活</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-首页"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-标签"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-归档"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://shicaiwei123.github.io/2019/05/11/endnote/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shicai Wei">
+      <meta itemprop="description" content="生活随笔，极客技术">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="韦仕才">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ubuntu18.04系统下NVIDIA显卡驱动+cuda+cudnn安装+conda虚拟环境配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-11 21:48:48" itemprop="dateCreated datePublished" datetime="2019-05-11T21:48:48+08:00">2019-05-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-05-19 10:22:20" itemprop="dateModified" datetime="2019-05-19T10:22:20+08:00">2019-05-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li><p>深度学习的显卡环境配置是一个非常麻烦的问题，理论上这是一个深度学习开发必须要面临的问题，那么教程就应该很多，后人学习起来的时候应该会很容易，实际上却是教程良莠不齐，而且很多教程往往是针对特定显卡的，但是这个和作者无关，只是说随着显卡更新换代，之前的很多教程其实就是无法使用了。在这里笔者通过帮室友配置gtx1660ti和自己配置教研室1050ti所遇到的完全不一样的问题做出记录个解决，基本能够解决绝大部分问题。</p>
+</li>
+<li><p>教程会完成驱动安装，conda安装，cuda，cudnn安装以及相应的虚拟环境环境配置，直到最后测试成功调用GPU，考虑到可操作性，教程尽量以多图方式展示,或者就是解释性良好的参考资料。</p>
+</li>
+<li><p>教程的目标是完成是在各个装完ubuntu系统之后的深度学习环境配置。安装顺序如下：</p>
+<ul>
+<li>安装显卡驱动</li>
+<li>安装conda(本教程不会介绍具体过程)</li>
+<li>安装cuda</li>
+<li>安装cudnn</li>
+<li>创建虚拟环境，配置TensorFlow和pytorch的深度学习环境</li>
+</ul>
+</li>
+</ul>
+<h1 id="驱动安装"><a href="#驱动安装" class="headerlink" title="驱动安装"></a>驱动安装</h1><h2 id="划重点"><a href="#划重点" class="headerlink" title="划重点"></a>划重点</h2><ul>
+<li>在安装好ubuntu系统后，首先第一步先装显卡驱动！先装显卡驱动！！先装显卡驱动！！！，重要的事情说三遍，有些电脑是不装驱动就不能用，自己肯定会先装驱动，但是有些电脑是不装驱动也照样用的好好的，可能最后才来弄自己的显卡驱动，但是装驱动坑太多，很容易开机之后无法登陆，最后只能重装系统，这样之前的工作就算是白费了。不要问我为什么知道，，，</li>
+</ul>
+<h2 id="快速安装"><a href="#快速安装" class="headerlink" title="快速安装"></a>快速安装</h2><ul>
+<li>一般早些的显卡版本，比如像是我教研室的1050ti，就可以可以参见<a href="https://blog.csdn.net/tjuyanming/article/details/80862290" target="_blank" rel="noopener">命令教程</a>中的第一种方式快速安装，简单到超乎你想象。当然其他版本也可以试一下第一种方法安装，反正这个方法没有副作用，成功了就万事大吉，不成功也是情理之中。像我室友的1660ti就没成功。<ul>
+<li>切记，如果这个能成功，就不要想着去自己尝试装驱动，如果想尝试，请做好重装系统的准备</li>
+</ul>
+</li>
+<li>如果没法通过上面方法安装的，就可以考虑自己安装了。上面的不行，其他的的什么从software上安装的方式基本也不行。至于自己安装驱动的过程，不推荐上面教程的方法，至于原因，嗯，反正我是没有成功。</li>
+</ul>
+<h2 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h2><ul>
+<li><p>手动安装可以参见这个<a href="https://blog.mahonex.com/index.php/2018/07/18/ubuntu-18-04-%E5%AE%89%E8%A3%85nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8/" target="_blank" rel="noopener">手动安装教程</a>快速安装。</p>
+</li>
+<li><p>一般说要先把电脑安全启动改成disable，不过也可以先尝试，因为我室友的就是默认disable好像，而且这一步先尝试也没什么副作用，如果没有disable顶多就是失败报错而已</p>
+<ul>
+<li>小声比比，而且其实虽然很多教程，甚至视频都成功的disable了这个选项，但是我照着做的时候就是找不到Clear Secure Boot keys，这个选项，所以硬是没有成功。不过还是成功安装了。</li>
+<li>就好像前面快速安装显卡驱动的教程一样，对于室友的1660ti就是不行，至于为什么，这背后的玄学还没弄明白。不过幸运的是我可以直接用命令安装驱动，嗯哼。</li>
+<li>如果直接不行就可以参照<a href="https://blog.csdn.net/qq_29650553/article/details/81028739" target="_blank" rel="noopener">disable安全启动教程</a>尝试解决这个问题<h1 id="conda安装"><a href="#conda安装" class="headerlink" title="conda安装"></a>conda安装</h1></li>
+</ul>
+</li>
+<li>安装完驱动之后优先安装conda，反正最后都要安装的。至于为甚，嗯，因为我曾经遇到过后来安装conda然后把linux下的bashrc文件弄坏了。在把conda路径加到系统路径后就这样了。导致所有命令都不能用，吓得以为又要重装系统，最后还是在命令目录下恢复了文件才解决了问题</li>
+<li>conda的安装还是很简单的，在之前的<a href="https://www.shicaiwei.com/2019/03/24/ubuntu%E4%B8%8Bconda+pytorch+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" target="_blank" rel="noopener">conda安装教程</a>也有说到过</li>
+</ul>
+<h1 id="cuda和cudnn安装"><a href="#cuda和cudnn安装" class="headerlink" title="cuda和cudnn安装"></a>cuda和cudnn安装</h1><h2 id="版本问题"><a href="#版本问题" class="headerlink" title="版本问题"></a>版本问题</h2><ul>
+<li>众所周知，cuda和cudnn以及使用的TensorFlow是有版本对应的，而pytorch不是这样的，一是在安装pytorch的时候，可以指定cuda版本安装，如果直接pip安装，好像也会直接适配你安装好的cuda，也就是你不用担心pytorch安装的时候和你的cuda不匹配。<ul>
+<li>是不是真的适配，也不清楚，反正每次pip直接安装的时候没啥事。</li>
+<li>具体可以查看<a href="https://blog.csdn.net/yuejisuo1948/article/details/81043962" target="_blank" rel="noopener">cuda和cudnn和TensorFlow版本对应关系</a>了解</li>
+<li>一般而言，现在都会选择cuda9.0的版本的，要求是9的时候，就不要想着去尝试9.2这样的，直接选9就好了，不然会遇到什么坑下面会有介绍</li>
+</ul>
+</li>
+<li><p>cuda一般选9.0是没问题，但是cudnn本身也有版本，但是网上的很多教程基本都不会在意cudnn小版本的问题，就是cudnn7.x.x好像和tensorflow还有对应关系，比如下面教程介绍conda环境，尝试的时候会发现不同tensorflow自动匹配安装的cudnn的版本是不一样的。</p>
+<ul>
+<li>不过一般装7.1.x都不会有问题，更新时间在2018年，tensorflow绝大部分的版本更新都是在这一年。我们最后选择的cudnn7.1.5.</li>
+<li>其次如果安装错了，也没什么，反正，这个的删除和安装很方便</li>
+<li>而且也许有着cudnn本身有着向下兼容性。因为后面装过很多版本的tensorflow都可以用。</li>
+<li>总的来说，为了安全可以装7.1.5（如果你看到这个教程的时候已经是很2020以后了，那么就不用看这个了，没有参考价值），尝试一下也可以直接装最新的</li>
+</ul>
+</li>
+<li><p>除了这些对应关系，注意cuda和显卡驱动版本还有对应关系！</p>
+<ul>
+<li>所以不是说cuda装什么都可以的，是显卡驱动限制了你的cuda版本，限制了你最高能用到几的tensorflow。</li>
+<li><a href="https://blog.csdn.net/IT_xiao_bai/article/details/88342921" target="_blank" rel="noopener">显卡驱动和cuda版本对应关系</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="关于conda安装"><a href="#关于conda安装" class="headerlink" title="关于conda安装"></a>关于conda安装</h2><ul>
+<li>如果大家查了很多教程，会发现，conda配置pytorch或者tesorflow-gpu的环境的时候会自动根据要安装的版本，自己安装cuda和cudnn，所以其实可以说不用自己安装。理论上这么方便，我干嘛还要自己安装。事情当然没这么简单<ul>
+<li>首先就是一般还是推荐安装cuda9.0，但是如果conda自己安装的时候往往会给你匹配到cuda8.0或者cuda9.2这种神奇的版本。</li>
+<li>版本不对就算了，既然conda这么安装了，那么我肯定能调用啊。但是事情没这么简单，还真是就不可以。会提升找不到9.0的cuda版本的文件，具体如下：</li>
+<li>其次conda装cuda的时候，可不管你的驱动版本，只看pytorch和tensorflow的版本，但是事实的真相是cuda版本和NVIDIA驱动版本还有一个驱动对应关系。比如我390的驱动，但是conda自动给我装了一个cuda9.2，而cuda9.2对应的驱动版本需要》=396.46，我还能怎样。</li>
+<li>所以还是推荐自己安装，自己安装之后，就算你后面再用conda的自动安装也可以，如果不行，把自己安装好的文件，支付粘贴复制过去妥妥的，也能用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="快速安装-1"><a href="#快速安装-1" class="headerlink" title="快速安装"></a>快速安装</h2><ul>
+<li>参照<a href="https://zhuanlan.zhihu.com/p/50302396" target="_blank" rel="noopener">cunda安装教程</a>快速安装</li>
+<li><p>在</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh cuda_9.0.176_384.81_linux.run</span><br></pre></td></tr></table></figure>
+<p>  中会有很多选项，其中有一个是否安装显卡驱动，因为之前以前安装过了，所以拒绝就可以，然后其他都接受就行了</p>
+<ul>
+<li>不要想着说那我这时候再来装驱动不就行了，一般这样最后都会卡死，我最开始就试过这样，所以大家还是好好按照顺序来</li>
+</ul>
+</li>
+</ul>
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ul>
+<li>到这里，可能是终于结束了，有可能还是一样会失败，虽然我觉得这个教程我照着做了很多次都成功了，但是真的指不定到你们电脑上真的不行。嗯哼。</li>
+<li>环境的配置不建议直接在base环境下面配置，这样万一弄坏了修复还是很麻烦的，但是虚拟环境就随便你玩了</li>
+<li>注意之前提到的，不建议使用conda install 安装环境<ul>
+<li>当然，你也可以这样尝试，反正时间开销也不大，不能用卸载了就可以</li>
+</ul>
+</li>
+</ul>
+<h2 id="pytorch环境配置"><a href="#pytorch环境配置" class="headerlink" title="pytorch环境配置"></a>pytorch环境配置</h2><ul>
+<li>相对配置简单一些，创建虚拟环境之后，直接参见之前的<a href="https://www.shicaiwei.com/2019/03/24/ubuntu%E4%B8%8Bconda+pytorch+opencv%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">安装教程</a>安装就好了</li>
+<li><p>测试命令：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">print(torch.cuda.is_available())</span><br><span class="line">如果返回True就成功了</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果不不行，这个问题可就多了，需要具体问题具体分析了，因为我这里是一步成功，所以可能暂时没有什么反面教材</p>
+</li>
+</ul>
+<h2 id="tensorflow环境配置"><a href="#tensorflow环境配置" class="headerlink" title="tensorflow环境配置"></a>tensorflow环境配置</h2><ul>
+<li><p>安装命令</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install tensorflow==1.12.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.12.0是cuda9支持的最高版本，后面的版本就需要cuda10了</li>
+<li>另一个比较常用的版本就是1.8.0</li>
+</ul>
+</li>
+<li><p>测试命令</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.test.is_gpu_available()</span><br></pre></td></tr></table></figure>
+<p>  返回true就是可以的</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NVIDIA/" rel="tag"># NVIDIA</a>
+          
+            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
+          
+            <a href="/tags/CUDNN/" rel="tag"># CUDNN</a>
+          
+            <a href="/tags/conda/" rel="tag"># conda</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/16/opencv/" rel="next" title="ubuntu下opencv安装与使用">
+                <i class="fa fa-chevron-left"></i> ubuntu下opencv安装与使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/17/12306/" rel="prev" title="12306抢票程序配置使用">
+                12306抢票程序配置使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Shicai Wei</p>
+              <div class="site-description motion-element" itemprop="description">生活随笔，极客技术</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/shicaiwei123" title="GitHub &rarr; https://github.com/shicaiwei123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:shicaiwei365@163.com" title="E-Mail &rarr; mailto:shicaiwei365@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#驱动安装"><span class="nav-number">2.</span> <span class="nav-text">驱动安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#划重点"><span class="nav-number">2.1.</span> <span class="nav-text">划重点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速安装"><span class="nav-number">2.2.</span> <span class="nav-text">快速安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手动安装"><span class="nav-number">2.3.</span> <span class="nav-text">手动安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#conda安装"><span class="nav-number">3.</span> <span class="nav-text">conda安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cuda和cudnn安装"><span class="nav-number">4.</span> <span class="nav-text">cuda和cudnn安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#版本问题"><span class="nav-number">4.1.</span> <span class="nav-text">版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于conda安装"><span class="nav-number">4.2.</span> <span class="nav-text">关于conda安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速安装-1"><span class="nav-number">4.3.</span> <span class="nav-text">快速安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境配置"><span class="nav-number">5.</span> <span class="nav-text">环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch环境配置"><span class="nav-number">5.1.</span> <span class="nav-text">pytorch环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow环境配置"><span class="nav-number">5.2.</span> <span class="nav-text">tensorflow环境配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shicai Wei</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18.5k字</span>
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

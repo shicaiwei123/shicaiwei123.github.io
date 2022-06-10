@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概述在ubuntu系统上利用安装conda，pytorch，opencv，并结合RFB-Net在VOC2007和VOC2012上完成测试。核心内容还是环境的配置，特别是解决环境配置中遇到的各种问题。 安装python版本问题目前的conda对应的python3版本是3.7，但是ubuntu16.04的系统自带版本是python3.5，而ubuntu18.04自带版本又是python3.6，而网上很">
+<meta name="keywords" content="conda,ubuntu,opencv,pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu下conda+pytorch+opencv环境配置">
+<meta property="og:url" content="https://shicaiwei123.github.io/2019/03/24/ubuntu下conda+pytorch+opencv环境配置/index.html">
+<meta property="og:site_name" content="韦仕才">
+<meta property="og:description" content="概述在ubuntu系统上利用安装conda，pytorch，opencv，并结合RFB-Net在VOC2007和VOC2012上完成测试。核心内容还是环境的配置，特别是解决环境配置中遇到的各种问题。 安装python版本问题目前的conda对应的python3版本是3.7，但是ubuntu16.04的系统自带版本是python3.5，而ubuntu18.04自带版本又是python3.6，而网上很">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-10T12:16:16.487Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu下conda+pytorch+opencv环境配置">
+<meta name="twitter:description" content="概述在ubuntu系统上利用安装conda，pytorch，opencv，并结合RFB-Net在VOC2007和VOC2012上完成测试。核心内容还是环境的配置，特别是解决环境配置中遇到的各种问题。 安装python版本问题目前的conda对应的python3版本是3.7，但是ubuntu16.04的系统自带版本是python3.5，而ubuntu18.04自带版本又是python3.6，而网上很">
+
+
+
+
+
+
+  <link rel="canonical" href="https://shicaiwei123.github.io/2019/03/24/ubuntu下conda+pytorch+opencv环境配置/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ubuntu下conda+pytorch+opencv环境配置 | 韦仕才</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">韦仕才</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">用技术改变生活</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-首页"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-标签"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-归档"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://shicaiwei123.github.io/2019/03/24/ubuntu下conda+pytorch+opencv环境配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shicai Wei">
+      <meta itemprop="description" content="生活随笔，极客技术">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="韦仕才">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ubuntu下conda+pytorch+opencv环境配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-24 11:00:33" itemprop="dateCreated datePublished" datetime="2019-03-24T11:00:33+08:00">2019-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-10 20:16:16" itemprop="dateModified" datetime="2019-04-10T20:16:16+08:00">2019-04-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/极客技术/" itemprop="url" rel="index"><span itemprop="name">极客技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在ubuntu系统上利用安装conda，pytorch，opencv，并结合RFB-Net在VOC2007和VOC2012上完成测试。核心内容还是环境的配置，特别是解决环境配置中遇到的各种问题。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="python版本问题"><a href="#python版本问题" class="headerlink" title="python版本问题"></a>python版本问题</h2><p>目前的conda对应的python3版本是3.7，但是ubuntu16.04的系统自带版本是python3.5，而ubuntu18.04自带版本又是python3.6，而网上很多的安装教程又都是conda对应python3版本是python3.6的情况。也许曾经是，但是由于这个原因，在整个环境的安装过程，参照别教程安装的时候会出现很多问题，所以一一列举出来并解决。  </p>
+<p><font color="#dd0000">更新：</font> conda对应的python版本是根据不同conda版本是不同的，也许有的就是python3.6和系统版本一样</p>
+<h2 id="conda安装"><a href="#conda安装" class="headerlink" title="conda安装"></a>conda安装</h2><h3 id="conda介绍"><a href="#conda介绍" class="headerlink" title="conda介绍"></a>conda介绍</h3><p>conda本身可以看做是一个集成环境，自己集成了很多的第三方包，而且还都是主要用于机器学习和数据分析的包  </p>
+<p>其次conda还可以继续安装其他的第三方库，就到这里来看，conda和python很接近，只不过是比python集成的内容更多</p>
+<p>但是conda和python不同的地方在于，conda是可以把python当做一个包来管理的，也就是conda下面可以安装不同版本的python，生产不同的虚拟环境，执行不同的操作。而且在安装conda的时候，一般它会自带一个版本的python，比如本次试验中的python3.7</p>
+<h3 id="快速安装"><a href="#快速安装" class="headerlink" title="快速安装"></a>快速安装</h3><p>参见<a href="https://blog.csdn.net/woainishifu/article/details/74978647" target="_blank" rel="noopener">conda安装教程</a><br>如果原文下载链接无法打开，可以<a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">点此进入</a></p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><h4 id="python版本问题-1"><a href="#python版本问题-1" class="headerlink" title="python版本问题"></a>python版本问题</h4><p>如果是python2，就不存在这个问题，但是如果是python3的conda就是前面提到的问题，再conda安装的时候，会自动安装一个python3.7并且设置成ubuntu系统版本，也就是ubuntu中再输入python3的时候会进入到python3.7而且后面还会跟有anaconda </p>
+<p>这时候可以把这个python7当做conda的一个虚拟环境(即类似再python中建立的一个虚拟环境)。然后conda在这个虚拟环境中装了很多第三方包   这其实也就是我们为什么用从conda的原因，方便。装好一个conda，就什么都有了，而且安装其他pytorch，opencv什么的也很方便。  </p>
+<p>但是整个的这样的一些配置都可以把它当做一个虚拟环境看待，这样对后面解决问题很有帮助。而且装好的conda其实也就是主目录下的一个文件夹，所有的可执行文件，第三方库，都在里面，而没有说被安装到系统其他目录中。</p>
+<h4 id="conda命令无效"><a href="#conda命令无效" class="headerlink" title="conda命令无效"></a>conda命令无效</h4><p>多半是路径的问题，前面也提到conda安装后，不会像是安装其他东西自动添加到系统其他目录中，在shell检索的时候可以检索到，所以我们需要把conda可执行问题的路径添加到系统路径  </p>
+<p>参加<a href="https://blog.csdn.net/qq_36652619/article/details/79676742" target="_blank" rel="noopener">修改环境变量教程</a>修改</p>
+<p>如果不习惯vim，可以使用nano，使用感觉更偏向与平常的一些文本编辑器</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>自此，conda的安装就算是基本完成了，如果还有什么问题，可以邮件留言</p>
+<h2 id="pytorch安装"><a href="#pytorch安装" class="headerlink" title="pytorch安装"></a>pytorch安装</h2><h3 id="快速安装-1"><a href="#快速安装-1" class="headerlink" title="快速安装"></a>快速安装</h3><p>参加<a href="https://www.jianshu.com/p/50ef56ff79ae" target="_blank" rel="noopener">pytorch安装教程</a>，可以完成安装</p>
+<h3 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h3><ul>
+<li><p>在教程中，其实已经把所有问题都分析完了，而且我们最终采用的也是这个解决方法，如果最开始就能看到这篇教程就不用走这么多弯路了！！！  </p>
+</li>
+<li><p>很多教程都说了修改conda的源可以解决condaHttpError错误，但是实际上我们之前尝试过修改到了清华的，中科大的源，但是都是不行，用conda安装的时候还是会出现这个问题。猜测多半是系统代理的问题，但是还是没有</p>
+</li>
+<li>conda安装不一定就不行，所以还是可以先尝试一下，因为经过试验源码安装pytorch非常耗时间，也许是个人网络问题  </li>
+</ul>
+<h3 id="pip安装"><a href="#pip安装" class="headerlink" title="pip安装"></a>pip安装</h3><ul>
+<li><p>后来经过尝试发现pip也不一定不可以安装，如果直接使用如下命令是不可以：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install pytorch</span><br></pre></td></tr></table></figure>
+<p>但是如果在pytorch官网之中直接选择pip安装选项，利用官网生产的pip安装选项是可以安装的：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install torch torchvision</span><br></pre></td></tr></table></figure>
+<p>  只不过说这样安装的结果并不是在conda的整个环境之下，而是在本地的python 存放第三库的文件夹中，而前面说过，conda是自成一个环境的，所以目前这样安装的时候，如果进入的conda下的python，那么import torch的时候没有办法导入的，后面的opencv也是如此。  </p>
+<p>  解决办法就是将这个本地python下的第三方库的文件夹，加入到环境变量当中。是的，最开始的时候是没有加进去的，当然也不能排除某些情况就已经加入进去了，那么导入的时候应该是可以导入的。因为就算是conda下的python版本，其检索路径也会包括系统环境变量</p>
+</li>
+</ul>
+<h2 id="opencv安装"><a href="#opencv安装" class="headerlink" title="opencv安装"></a>opencv安装</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>opencv的安装应该是一个踩坑最多的地方，以至于说连连一个还算看的过去的安装教程都没有，所以这里决定慢慢写一个</p>
+<h3 id="pip问题"><a href="#pip问题" class="headerlink" title="pip问题"></a>pip问题</h3><p>利用 pip install opencv-python 安装的时候，最开始是遇到了如下问题：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after connection broken by 'ProxyError('Cannot connect to proxy.', NewConnectionError('&lt;pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000000044CF7B8&gt;: Failed to establish a new connection: [Errno 10061] ',))': /simple/requests/</span><br><span class="line">  Retrying (Retry(total=3, connect=None, read=None, redirect=None)) after connection broken by 'ProxyError('Cannot connect to proxy.', NewConnectionError('&lt;pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000000044CF6A0&gt;: Failed to establish a new connection: [Errno 10061] ',))': /simple/requests/</span><br><span class="line">  Retrying (Retry(total=2, connect=None, read=None, redirect=None)) after connection broken by 'ProxyError('Cannot connect to proxy.', NewConnectionError('&lt;pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000000044CF5F8&gt;: Failed to establish a new connection: [Errno 10061] ',))': /simple/requests/</span><br><span class="line">  Retrying (Retry(total=1, connect=None, read=None, redirect=None)) after connection broken by 'ProxyError('Cannot connect to proxy.', NewConnectionError('&lt;pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000000044CF4A8&gt;: Failed to establish a new connection: [Errno 10061] ',))': /simple/requests/</span><br><span class="line">  Retrying (Retry(total=0, connect=None, read=None, redirect=None)) after connection broken by 'ProxyError('Cannot connect to proxy.', NewConnectionError('&lt;pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x00000000044CF358&gt;: Failed to establish a new connection: [Errno 10061] ',))': /simple/requests/</span><br><span class="line">  <span class="function">Could <span class="keyword">not</span> find a version that satisfies the requirement <span class="title">requests</span> <span class="params">(from versions: )</span></span></span><br><span class="line"><span class="function">No matching distribution found <span class="keyword">for</span> requests</span></span><br></pre></td></tr></table></figure>
+<p>细节上会有所不同，因为我是网上截取了request的安装报错，因为最开始报错的时候没有截图，不过基本就是这个问题。</p>
+<p>可以明确的是，这个是系统代理的问题，因为绝大部分Ubuntu用户都会必备一个shadowsocks。所以不用说去想着换pip源什么的解决这份问题，不过源还是要换的，毕竟国内源还是快。但是讲真最后解决的自己都记不太清楚了。但是基本思路如下：  </p>
+<p>首先，检查Ubuntu的网络代理问题，也就是系统设置下的网络，把网络代理禁用掉   </p>
+<p>然后就是检查全局的代理设置，可以使用如下命令尝试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --proxy=user:pass@server:port &lt;package Name&gt;</span><br></pre></td></tr></table></figure></p>
+<p>比如说大家的shadowsocks基本都是配置的127.0.0.1:1080，那么就是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --proxy=user:pass@127.0.0.1:1080 opencv-python</span><br></pre></td></tr></table></figure></p>
+<p>用户名和密码需要改成自己的。<br>有可能行，有可能还是不行，我最开始好像就是不行，，，<br>最后就是设置全局代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set HTTP_PROXY=username:password@proxy:port   </span><br><span class="line">set HTTPS_PROXY=username:password@proxy:port</span><br></pre></td></tr></table></figure></p>
+<p>proxy,就是代理服务器ip<br>如果还是不行，大家可以去这两个网页看看，我当时好像做到这，怎么的就好了。。。</p>
+<p>参考资料：<br><a href="https://github.com/skvark/opencv-python/issues/102" target="_blank" rel="noopener">https://github.com/skvark/opencv-python/issues/102</a><br><a href="https://github.com/pypa/pip/issues/5362" target="_blank" rel="noopener">https://github.com/pypa/pip/issues/5362</a></p>
+<h3 id="apt-get-安装"><a href="#apt-get-安装" class="headerlink" title="apt-get 安装"></a>apt-get 安装</h3><p>因为之前那个问题，所以网上还有一部分教程是说，你可以用apt-get安装。而事实证明这样确实能够安装，但是尴尬的问题在于，这样安装完成之后，最后还是说import cv2的时候找不到cv2.  </p>
+<p>而且这个找不到是指就算是进入本地的python2，python3都找不到，跟后面的本地python能找到，但是conda下的python找不到是完全不同的，所这种方法基本是无效的</p>
+<h3 id="pip安装-1"><a href="#pip安装-1" class="headerlink" title="pip安装"></a>pip安装</h3><p>如果有幸解决了最开始pip的问题，或者根本就没与遇到pip的问题，可以使用pip安装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install opencv-python</span><br><span class="line">sudo pip install opencv-python</span><br></pre></td></tr></table></figure></p>
+<p>但是同样还是遇到几个棘手的问题。就算是你用pip,pip3分别安装了opencv-python，而且在彼此的环境中都成功导入了cv2，或者说在python3中是 python3.5（ubuntu16), python3.6(ubuntu18) 中成功导入，但是在python3.7中就是不行，所以在conda中也还是不行。原因是猜测，这两个安装方式安装的opencv包都放在了/user下了，但是python3.7是conda的python版本，是放在conda的文件下的，所以找不到。</p>
+<p>而且也许你也在网上看到了说把python2.7下的cv2文件拷到conda的python目录下，但是却还是不行，因为那个移动的是python2下的cv2，但是你的版本是python3的，所以不行。   </p>
+<p>最佳的解决办法就是将python3下的CV2包直接复制到conda文件夹python的site-packages文件夹下。就好像是给python3.7装了这个第三方包一样。而不是只移动.so文件。前面说过的，python3.7就是conda下的一个虚拟环境，而安装第三方包只不过就是把连接文件下载下来放到python的检索目录下，所以可以直接这么做。  </p>
+<p>再或者就是如图刚刚解决torch的方法一般，添加环境变量，如果发现已经是环境变量了，那么就采取刚刚说到的复制文件夹的方式</p>
+<p>然后也许还是会碰到一个，ImportError: No module named cv2.cv2的问题，这个是因为没有cv2.so的问题，至于为什么python3中直接运行的时候没有，猜测是会自动过滤掉那个版本号。解决办法就是将python3.7目录下的cv2.x86_64-linux-gnu.so，改成cv2.so就可以。然后就算是解决了opencv的安装问题了。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/conda/" rel="tag"># conda</a>
+          
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+          
+            <a href="/tags/opencv/" rel="tag"># opencv</a>
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/14/ubuntu系统下封装c++的Python接口/" rel="next" title="ubuntu系统下c++的python接口封装">
+                <i class="fa fa-chevron-left"></i> ubuntu系统下c++的python接口封装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/31/shadow/" rel="prev" title="ubuntu和Windows系统下shadowsocks翻墙服务配置">
+                ubuntu和Windows系统下shadowsocks翻墙服务配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Shicai Wei</p>
+              <div class="site-description motion-element" itemprop="description">生活随笔，极客技术</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/shicaiwei123" title="GitHub &rarr; https://github.com/shicaiwei123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:shicaiwei365@163.com" title="E-Mail &rarr; mailto:shicaiwei365@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#python版本问题"><span class="nav-number">2.1.</span> <span class="nav-text">python版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conda安装"><span class="nav-number">2.2.</span> <span class="nav-text">conda安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#conda介绍"><span class="nav-number">2.2.1.</span> <span class="nav-text">conda介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速安装"><span class="nav-number">2.2.2.</span> <span class="nav-text">快速安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析"><span class="nav-number">2.2.3.</span> <span class="nav-text">问题分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#python版本问题-1"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">python版本问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#conda命令无效"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">conda命令无效</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.2.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch安装"><span class="nav-number">2.3.</span> <span class="nav-text">pytorch安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速安装-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">快速安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题分析-1"><span class="nav-number">2.3.2.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pip安装"><span class="nav-number">2.3.3.</span> <span class="nav-text">pip安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#opencv安装"><span class="nav-number">2.4.</span> <span class="nav-text">opencv安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述-1"><span class="nav-number">2.4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pip问题"><span class="nav-number">2.4.2.</span> <span class="nav-text">pip问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-get-安装"><span class="nav-number">2.4.3.</span> <span class="nav-text">apt-get 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pip安装-1"><span class="nav-number">2.4.4.</span> <span class="nav-text">pip安装</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shicai Wei</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.1</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18.5k字</span>
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
